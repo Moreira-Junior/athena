@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt_BR" xmlns:th="www.thymeleaf.org">
+
+<head>
+    <title>Athena - Semester Form</title>
+</head>
+
+<body>
+<h1 class="mb-3">Semester registration</h1>
+
+<div th:text="${message}" style="color: red"></div>
+
+<!doctype html>
+<html lang="pt_BR" xmlns:th="www.thymeleaf.org">
+
+<head>
+    <title>Athena - Student Form</title>
+</head>
+
+<body>
+<h1 class="mb-3">Student registration</h1>
+
+<div th:text="${message}" style="color: red"></div>
+
+
+<form th:action="@{/semesters}" method="POST" th:object="${semester}">
+    <input type="hidden" th:field="*{id}"/>
+    <label for="startAt">Start date:</label>
+    <input type="text" th:field="*{startAt}" id="startAt" name="startAt"><br><br>
+
+    <label for="endsAt">End date:</label>
+    <input type="text" th:field="*{endsAt}" id="endsAt" name="endsAt"><br><br>
+
+    <label for="institution">Institution:</label>
+    <select th:field="*{institution}" id="institution" name="institution">
+        <option th:each="institution : ${institutionsItems}" th:value="${institution.id}" th:label="${institution.name}"></option>
+    </select><br><br>
+
+    <button type="submit">Save</button>
+    <a th:href="@{/semesters/list}">Cancel</a>
+</form>
+</body>
+
+</html>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt_BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Athena - EnrollmentStatus List</title>
+</head>
+
+<body>
+<h1 class="mb-3">EnrollmentStatus List</h1>
+
+<div th:text="${message}" style="color: red"></div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Observation</th>
+        <th>Receiving date</th>
+        <th>Semester</th>
+        <th>Student</th>
+        <th>Institution</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="enrollmentStatus : ${enrollmentStatusList}">
+        <td th:text="${enrollmentStatus.observation}"></td>
+        <td th:text="${enrollmentStatus.receivingDate}"></td>
+        <td th:text="${enrollmentStatus.semester.endsAt}"></td>
+        <td th:text="${enrollmentStatus.student.name}"></td>
+        <td th:text="${enrollmentStatus.semester.institution.name}"></td>
+        <td><a th:href="@{/enrollments/{id}/edit(id=${enrollmentStatus.id})}">Edit</a></td>
+        <td><a th:href="@{/enrollments/{id}/delete(id=${enrollmentStatus.id})}">Remove</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+
+</html>

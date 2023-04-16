@@ -1,0 +1,40 @@
+<html xmlns:th="www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Institutions</title>
+</head>
+
+<body>
+<h1>Institutions register</h1>
+
+
+<form th:action="@{/institutions/form}" method="GET">
+  <button class="btn btn-primary" type="submit">New</button>
+</form>
+<br />
+<div th:text="${message}" style="color: blue; margin-bottom: 10px;"></div>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Short Name</th>
+    <th>Semester</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="institution : ${institutions}">
+<!--    <td><a th:href="@{/correntistas/{id}(id=${correntista.id})}" th:text="${correntista.nome}"></a></td>-->
+    <td th:text="${institution.name}"></td>
+    <td th:text="${institution.shortName}"></td>
+    <td th:text="${institution.semester.size() == 0 ? 'Não cadastrado' : institution.semester[institution.semester.size() - 1]}"></td>
+    <td><a th:href="@{/institutions/{id}/edit(id=${institution.id})}">Edit</a></td>
+      <td><a th:href="@{/institutions/{id}/delete(id=${institution.id})}">Remove</a></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+
+</html>

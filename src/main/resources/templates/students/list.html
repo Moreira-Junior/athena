@@ -1,0 +1,39 @@
+<html xmlns:th="www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Students</title>
+</head>
+
+<body>
+<h1>Students register</h1>
+
+
+<form th:action="@{/institutions/form}" method="GET">
+    <button class="btn btn-primary" type="submit">New</button>
+</form>
+<br />
+<div th:text="${message}" style="color: blue; margin-bottom: 10px;"></div>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Registration Code</th>
+        <th>Institution</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.registrationCode}"></td>
+        <td th:text="${student.institution.name}"></td>
+        <td><a th:href="@{/students/{id}/edit(id=${student.id})}">Edit</a></td>
+        <td><a th:href="@{/students/{id}/delete(id=${student.id})}">Remove</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+
+</html>

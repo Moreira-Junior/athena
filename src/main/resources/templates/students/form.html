@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt_BR" xmlns:th="www.thymeleaf.org">
+
+<head>
+    <title>Athena - Student Form</title>
+</head>
+
+<body>
+<h1 class="mb-3">Student registration</h1>
+
+<div th:text="${message}" style="color: red"></div>
+
+<form th:action="@{/students}" method="POST" th:object="${student}">
+    <input type="hidden" th:field="*{id}"/>
+    <label for="name">Name:</label>
+    <input type="text" th:field="*{name}" id="name" name="name"><br><br>
+
+    <label for="reg_code">Registration Code:</label>
+    <input type="text" th:field="*{registrationCode}" id="reg_code" name="reg_code"><br><br>
+
+    <label for="institution">Instituição:</label>
+    <select th:field="*{institution}" id="institution" name="institution">
+        <option value="">Select an institution</option>
+        <option th:each="institution : ${institutionsItems}" th:value="${institution.id}" th:label="${institution.name}"></option>
+    </select><br><br>
+    <button type="submit">Save</button>
+    <a th:href="@{/students/list}">Cancel</a>
+</form>
+</body>
+
+</html>

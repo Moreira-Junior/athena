@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="pt_BR" xmlns:th="www.thymeleaf.org">
+
+<head>
+    <title>Athena - Institution Form</title>
+</head>
+
+<body>
+<h1 class="mb-3">Institution registration</h1>
+
+    <div th:text="${message}" style="color: red"></div>
+
+    <form th:action="@{/institutions}" method="POST" th:object="${institution}">
+        <input type="hidden" th:field="*{id}"/>
+        Name: <input type="text" th:field="*{name}" /><br /><br />
+        Short name: <input type="text" th:field="*{shortName}" /><br /><br />
+        <input type="submit" value="Save" />
+        <a th:href="@{/institutions/list}">Cancel</a>
+</form>
+</body>
+
+</html>
