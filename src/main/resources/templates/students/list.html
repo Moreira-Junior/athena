@@ -9,7 +9,7 @@
 <h1>Students register</h1>
 
 
-<form th:action="@{/institutions/form}" method="GET">
+<form th:action="@{/students/form}" method="GET">
     <button class="btn btn-primary" type="submit">New</button>
 </form>
 <br />
@@ -21,6 +21,8 @@
         <th>Name</th>
         <th>Registration Code</th>
         <th>Institution</th>
+        <th>Current Enrollment Status</th>
+        <th></th>
         <th></th>
     </tr>
     </thead>
@@ -29,6 +31,7 @@
         <td th:text="${student.name}"></td>
         <td th:text="${student.registrationCode}"></td>
         <td th:text="${student.institution.name}"></td>
+        <td th:text="${student.currentEnrollmentStatus == null ? 'Não cadastrado' : student.currentEnrollmentStatus.semester.description}"></td>
         <td><a th:href="@{/students/{id}/edit(id=${student.id})}">Edit</a></td>
         <td><a th:href="@{/students/{id}/delete(id=${student.id})}">Remove</a></td>
     </tr>

@@ -23,15 +23,16 @@ public class Semester {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String description;
     @NotNull(message = "Required field")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate startAt;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startsAt;
     @NotNull(message = "Required field")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Future(message = "Date should be in the future!")
     private LocalDate endsAt;
     @NotNull(message = "Required field")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "id_institution")
     private Institution institution;
 
@@ -43,7 +44,7 @@ public class Semester {
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String startsAtFormatted = startAt.format(formatter);
+        String startsAtFormatted = startsAt.format(formatter);
         String endsAtFormatted = endsAt.format(formatter);
         return "Starts at " + startsAtFormatted + " ends at " + endsAtFormatted;
     }

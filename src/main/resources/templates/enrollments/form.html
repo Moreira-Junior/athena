@@ -9,17 +9,16 @@
 <h1 class="mb-3">Enrollment Status Registration</h1>
 
 <div th:text="${message}" style="color: red"></div>
-
 <form th:action="@{/enrollments}" method="POST" th:object="${enrollmentStatus}">
     <input type="hidden" th:field="*{id}"/>
     <label for="observation">Observation:</label>
     <input type="text" th:field="*{observation}" id="observation" name="observation"><br><br>
 
-    <label for="semester">Semester:</label>
-    <select th:field="*{semester}" id="semester" name="semester">
-        <option value="">Select a semester</option>
-        <option th:each="semester : ${semestersItems}" th:value="${semester.id}" th:label="${semester.endsAt}"></option>
-    </select><br><br>
+<!--    <label for="semester">Semester:</label>-->
+<!--    <select th:field="*{semester}" id="semester" name="semester">-->
+<!--        <option value="">Select a semester</option>-->
+<!--        <option th:each="semester : ${semestersItems}" th:value="${semester.id}" th:label="${semester.description}"></option>-->
+<!--    </select><br><br>-->
 
     <label for="student">Student:</label>
     <select th:field="*{student}" id="student" name="student">

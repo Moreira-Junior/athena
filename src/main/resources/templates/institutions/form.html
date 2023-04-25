@@ -12,8 +12,16 @@
 
     <form th:action="@{/institutions}" method="POST" th:object="${institution}">
         <input type="hidden" th:field="*{id}"/>
-        Name: <input type="text" th:field="*{name}" /><br /><br />
-        Short name: <input type="text" th:field="*{shortName}" /><br /><br />
+        <label for="currentSemester">Name:</label>
+        <input type="text" th:field="*{name}" id="name" name="name"/><br /><br />
+        <label for="currentSemester">Short name:</label>
+        <input type="text" th:field="*{shortName}" id="shortName" name="shortName"/><br /><br />
+        <label for="currentSemester">Current Semester:</label>
+<!--        <select th:field="*{institution}" id="institution" name="institution">-->
+        <select th:field="*{currentSemester}" id="currentSemester" name="currentSemester">
+            <option value="">Select a semester</option>
+            <option th:each="semester : *{semesters}" th:value="${semester.id}" th:label="${semester.description}"></option>
+        </select><br><br>
         <input type="submit" value="Save" />
         <a th:href="@{/institutions/list}">Cancel</a>
 </form>

@@ -38,6 +38,7 @@ public class SemesterController {
 
     @PostMapping
     public ModelAndView save(Semester semester, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
+        semester.getInstitution().setCurrentSemester(semester);
         this.semesterRepository.save(semester);
         modelAndView.setViewName("redirect:semesters/list");
         redirectAttributes.addFlashAttribute("message", "Semester saved!");

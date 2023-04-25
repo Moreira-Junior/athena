@@ -46,6 +46,8 @@ public class EnrollmentStatusController {
 
     @PostMapping
     public ModelAndView save(EnrollmentStatus enrollmentStatus, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
+        enrollmentStatus.setSemester(enrollmentStatus.getStudent().getInstitution().getCurrentSemester());
+        enrollmentStatus.getStudent().setCurrentEnrollmentStatus(enrollmentStatus);
         this.enrollmentStatusRepository.save(enrollmentStatus);
         modelAndView.setViewName("redirect:enrollments/list");
         redirectAttributes.addFlashAttribute("message", "Enrollment Status saved!");
@@ -74,6 +76,14 @@ public class EnrollmentStatusController {
 
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteById(@PathVariable(value = "id")Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
+        this.enrollmentStatusRepository.deleteById(id);
+        redirectAttributes.addFlashAttribute("message", "Enrollment Status removed!");
+        modelAndView.setViewName("redirect:/enrollments/list");
+        return modelAndView;
+    }
+
+    @DeleteMapping("/{id}")
+    public ModelAndView deleteByIdTest(Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
         this.enrollmentStatusRepository.deleteById(id);
         redirectAttributes.addFlashAttribute("message", "Enrollment Status removed!");
         modelAndView.setViewName("redirect:/enrollments/list");

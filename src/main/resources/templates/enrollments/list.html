@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html5>
 <html lang="pt_BR" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -9,6 +9,10 @@
 <h1 class="mb-3">EnrollmentStatus List</h1>
 
 <div th:text="${message}" style="color: red"></div>
+
+<form th:action="@{/enrollments/form}" method="GET">
+    <button class="btn btn-primary" type="submit">New</button>
+</form>
 
 <table>
     <thead>
@@ -24,15 +28,25 @@
     <tbody>
     <tr th:each="enrollmentStatus : ${enrollmentStatusList}">
         <td th:text="${enrollmentStatus.observation}"></td>
-        <td th:text="${enrollmentStatus.receivingDate}"></td>
-        <td th:text="${enrollmentStatus.semester.endsAt}"></td>
+        <td th:text="${#temporals.format(enrollmentStatus.receivingDate, 'dd/MM/yyyy')}"></td>
+        <td th:text="${enrollmentStatus.semester.description}"></td>
         <td th:text="${enrollmentStatus.student.name}"></td>
         <td th:text="${enrollmentStatus.semester.institution.name}"></td>
         <td><a th:href="@{/enrollments/{id}/edit(id=${enrollmentStatus.id})}">Edit</a></td>
         <td><a th:href="@{/enrollments/{id}/delete(id=${enrollmentStatus.id})}">Remove</a></td>
+<!--        <td>-->
+
+<!--&lt;!&ndash;        <form th:action="@{/enrollments/{id}/delete(id=${enrollmentStatus.id})}" th:method="DELETE">&ndash;&gt;-->
+<!--        <form th:action="@{/enrollments/{id}(id=${enrollmentStatus.id}})}" th:method="DELETE">-->
+<!--            <button class="btn btn-primary" type="submit">Remove</button>-->
+<!--        </form>-->
+<!--        </td>-->
     </tr>
     </tbody>
 </table>
+<!--<form th:action="@{/enrollments}" th:object="${enrollmentStatus}" th:method="DELETE">-->
+<!--    <button class="btn btn-primary" type="submit">Remove</button>-->
+<!--</form>-->
 </body>
 
 </html>

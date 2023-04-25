@@ -26,12 +26,12 @@
   </thead>
   <tbody>
   <tr th:each="institution : ${institutions}">
-<!--    <td><a th:href="@{/correntistas/{id}(id=${correntista.id})}" th:text="${correntista.nome}"></a></td>-->
     <td th:text="${institution.name}"></td>
     <td th:text="${institution.shortName}"></td>
-    <td th:text="${institution.semester.size() == 0 ? 'Não cadastrado' : institution.semester[institution.semester.size() - 1]}"></td>
+<!--    <td th:text="${institution.semesters.size() == 0 ? 'Não cadastrado' : institution.semesters[institution.semesters.size() - 1].description}"></td>-->
+    <td th:text="${institution.semesters.size() == 0 ? 'Não cadastrado' : institution.currentSemester.description}"></td>
     <td><a th:href="@{/institutions/{id}/edit(id=${institution.id})}">Edit</a></td>
-      <td><a th:href="@{/institutions/{id}/delete(id=${institution.id})}">Remove</a></td>
+    <td><a th:href="@{/institutions/{id}/delete(id=${institution.id})}">Remove</a></td>
   </tr>
   </tbody>
 </table>

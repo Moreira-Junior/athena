@@ -8,7 +8,7 @@
 <table>
     <thead>
     <tr>
-        <th>ID</th>
+        <th>Description</th>
         <th>Start Date</th>
         <th>End Date</th>
         <th>Institution</th>
@@ -17,10 +17,11 @@
     </thead>
     <tbody>
     <tr th:each="semester : ${semesters}">
-<!--        <td th:text="${#dates.format(semester.startAt, 'dd/MM/yyyy')}"></td>-->
-        <td th:text="${semester.startAt}"></td>
-<!--        <td th:text="${#dates.format(semester.endsAt, 'dd/MM/yyyy')}"></td>-->
-        <td th:text="${semester.endsAt}"></td>
+        <td th:text="${semester.description}"></td>
+        <td th:text="${#temporals.format(semester.startsAt, 'dd/MM/yyyy')}"></td>
+<!--        <td th:text="${semester.startsAt}"></td>-->
+        <td th:text="${#temporals.format(semester.endsAt, 'dd/MM/yyyy')}"></td>
+<!--        <td th:text="${semester.endsAt}"></td>-->
         <td th:text="${semester.institution.name}"></td>
         <td><a th:href="@{/semesters/{id}/edit(id=${semester.id})}">Edit</a></td>
         <td><a th:href="@{/semesters/{id}/delete(id=${semester.id})}">Remove</a></td>

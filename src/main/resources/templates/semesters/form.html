@@ -25,11 +25,14 @@
 
 <form th:action="@{/semesters}" method="POST" th:object="${semester}">
     <input type="hidden" th:field="*{id}"/>
-    <label for="startAt">Start date:</label>
-    <input type="text" th:field="*{startAt}" id="startAt" name="startAt"><br><br>
+    <label for="startsAt">Start date:</label>
+    <input type="date" th:field="*{startsAt}" id="startsAt" name="startsAt" th:format="'yyyy-MM-dd'"><br><br>
 
     <label for="endsAt">End date:</label>
-    <input type="text" th:field="*{endsAt}" id="endsAt" name="endsAt"><br><br>
+    <input type="date" th:field="*{endsAt}" id="endsAt" name="endsAt" th:format="'yyyy-MM-dd'"><br><br>
+
+    <label for="description">Description:</label>
+    <input type="text" th:field="*{description}" id="description" name="description"><br><br>
 
     <label for="institution">Institution:</label>
     <select th:field="*{institution}" id="institution" name="institution">

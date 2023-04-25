@@ -29,7 +29,7 @@ public class EnrollmentStatus {
     @JoinColumn(name = "id_semester")
     private Semester semester;
     @NotNull(message = "Field required")
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "id_student")
     private Student student;
 }

@@ -33,4 +33,7 @@ public class Student {
     @OneToMany(mappedBy = "student")
     @ToString.Exclude
     private List<EnrollmentStatus> enrollmentStatus;
+    @OneToOne
+    @ToString.Exclude
+    private EnrollmentStatus currentEnrollmentStatus;
 }

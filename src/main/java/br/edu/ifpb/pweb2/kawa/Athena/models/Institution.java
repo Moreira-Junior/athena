@@ -1,7 +1,6 @@
 package br.edu.ifpb.pweb2.kawa.Athena.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
@@ -28,12 +27,13 @@ public class Institution {
     private String shortName;
     @OneToMany(mappedBy = "institution")
     @JsonBackReference
-    private List<Semester> semester;
+    private List<Semester> semesters;
     @OneToMany(mappedBy = "institution")
     private List<Student> students;
-
+    @OneToOne
+    private Semester currentSemester;
     @JsonManagedReference(value = "institution-semester")
-    public List<Semester> getSemester(){
-        return this.semester;
+    public List<Semester> getSemesters(){
+        return this.semesters;
     }
 }
