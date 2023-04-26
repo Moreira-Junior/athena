@@ -1,7 +1,6 @@
 package br.edu.ifpb.pweb2.kawa.Athena.controllers;
 
 import br.edu.ifpb.pweb2.kawa.Athena.models.EnrollmentStatus;
-import br.edu.ifpb.pweb2.kawa.Athena.models.Institution;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Semester;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Student;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.EnrollmentStatusRepository;
