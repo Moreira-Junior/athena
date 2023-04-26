@@ -1,40 +1,53 @@
-<html xmlns:th="www.thymeleaf.org">
-
-<head>
-  <meta charset="UTF-8">
-  <title>Institutions</title>
-</head>
-
-<body>
-<h1>Institutions register</h1>
+<!doctype html>
+<html lang="pt_BR" xmlns:th="www.thymeleaf.org">
+<head th:replace="~{/fragments/head :: content(title='Institutions')}"></head>
 
 
-<form th:action="@{/institutions/form}" method="GET">
-  <button class="btn btn-primary" type="submit">New</button>
-</form>
-<br />
-<div th:text="${message}" style="color: blue; margin-bottom: 10px;"></div>
+<body class="container">
+<div class="row mt-5">
+  <div class="col-10">
+    <h1>Gestao de instituçoes</h1>
+  </div>
 
-<table border="1">
-  <thead>
-  <tr>
-    <th>Name</th>
-    <th>Short Name</th>
-    <th>Semester</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="institution : ${institutions}">
-    <td th:text="${institution.name}"></td>
-    <td th:text="${institution.shortName}"></td>
-<!--    <td th:text="${institution.semesters.size() == 0 ? 'Não cadastrado' : institution.semesters[institution.semesters.size() - 1].description}"></td>-->
-    <td th:text="${institution.semesters.size() == 0 ? 'Não cadastrado' : institution.currentSemester.description}"></td>
-    <td><a th:href="@{/institutions/{id}/edit(id=${institution.id})}">Edit</a></td>
-    <td><a th:href="@{/institutions/{id}/delete(id=${institution.id})}">Remove</a></td>
-  </tr>
-  </tbody>
-</table>
+  <div class="col-2">
+    <form th:action="@{/institutions/form}" method="GET">
+      <button class="btn btn-primary" type="submit">Cadastrar nova instituçao</button>
+    </form>
+  </div>
+</div>
+
+<div class="row" th:if="${message}">
+  <div class="col-12" id="notice">
+    <div class="alert alert-success">
+      <div th:text="${message}"></div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-12">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">Abreviaçao</th>
+        <th scope="col">Semestre atual</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="institution : ${institutions}">
+        <th scope="row" th:text="${institution.name}"></th>
+        <td th:text="${institution.shortName}"></td>
+        <td th:text="${institution.semesters.size() == 0 ? 'Não cadastrado' : institution.currentSemester.description}"></td>
+        <td><a th:href="@{/institutions/{id}/edit(id=${institution.id})}">Edit</a></td>
+        <td><a th:href="@{/institutions/{id}/delete(id=${institution.id})}">Remove</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 </body>
 
 </html>
