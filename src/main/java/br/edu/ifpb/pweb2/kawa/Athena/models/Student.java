@@ -27,10 +27,9 @@ public class Student {
     private String registrationCode;
     @ManyToOne
     @JoinColumn(name = "id_institution")
-    @NotNull(message = "Required field!")
     @ToString.Exclude
     private Institution institution;
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", orphanRemoval = true)
     @ToString.Exclude
     private List<EnrollmentStatus> enrollmentStatus;
     @OneToOne

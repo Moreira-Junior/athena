@@ -76,16 +76,32 @@ public class EnrollmentStatusController {
 
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteById(@PathVariable(value = "id")Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
-        this.enrollmentStatusRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("message", "Enrollment Status removed!");
-        modelAndView.setViewName("redirect:/enrollments/list");
+        Optional<EnrollmentStatus> enrollmentStatus = this.enrollmentStatusRepository.findById(id);
+        if(enrollmentStatus.isPresent()){
+            Student student = enrollmentStatus.get().getStudent();
+            student.setCurrentEnrollmentStatus(null);
+            this.enrollmentStatusRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", "Enrollment Status removed!");
+            modelAndView.setViewName("redirect:/enrollments/list");
+        } else{
+            redirectAttributes.addFlashAttribute("message", "Enrollment Status not found!");
+            modelAndView.setViewName("redirect:/enrollments/list");
+        }
         return modelAndView;
     }
 
     @DeleteMapping("/{id}")
     public ModelAndView deleteByIdTest(Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
-        this.enrollmentStatusRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("message", "Enrollment Status removed!");
+        Optional<EnrollmentStatus> enrollmentStatus = this.enrollmentStatusRepository.findById(id);
+        if(enrollmentStatus.isPresent()){
+            Student student = enrollmentStatus.get().getStudent();
+            student.setCurrentEnrollmentStatus(null);
+            this.studentRepository.save(student);
+            this.enrollmentStatusRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", "Enrollment Status removed!");
+            modelAndView.setViewName("redirect:/enrollments/list");
+        }
+        redirectAttributes.addFlashAttribute("message", "Enrollment Status not found!");
         modelAndView.setViewName("redirect:/enrollments/list");
         return modelAndView;
     }

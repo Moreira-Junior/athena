@@ -55,8 +55,14 @@ public class InstitutionController {
 
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteById(@PathVariable(value = "id")Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
-        this.institutionRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("message", "Institution removed!");
+        Optional<Institution> institution = this.institutionRepository.findById(id);
+        if(institution.isPresent()){
+            institution.get().detachStudents();
+            this.institutionRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", "Institution removed!");
+            modelAndView.setViewName("redirect:/institutions/list");
+        }
+        redirectAttributes.addFlashAttribute("message", "Institution not found!");
         modelAndView.setViewName("redirect:/institutions/list");
         return modelAndView;
     }
