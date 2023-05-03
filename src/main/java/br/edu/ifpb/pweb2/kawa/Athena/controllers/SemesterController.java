@@ -41,7 +41,7 @@ public class SemesterController {
         semester.getInstitution().setCurrentSemester(semester);
         this.semesterRepository.save(semester);
         modelAndView.setViewName("redirect:semesters/list");
-        redirectAttributes.addFlashAttribute("message", "Semester saved!");
+        redirectAttributes.addFlashAttribute("message", "Período cadastrado com sucesso!");
         return modelAndView;
     }
 
@@ -71,10 +71,10 @@ public class SemesterController {
         if(semester.isPresent()){
             semester.get().getInstitution().setCurrentSemester(null);
             this.semesterRepository.deleteById(id);
-            redirectAttributes.addFlashAttribute("message", "Semester removed!");
+            redirectAttributes.addFlashAttribute("message", "Período deletado com sucesso!");
             modelAndView.setViewName("redirect:/semesters/list");
         } else {
-            redirectAttributes.addFlashAttribute("message", "Semester not found!");
+            redirectAttributes.addFlashAttribute("message", "Período não encontrado!");
             modelAndView.setViewName("redirect:/semesters/list");
         }
         return modelAndView;

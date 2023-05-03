@@ -1,6 +1,7 @@
 package br.edu.ifpb.pweb2.kawa.Athena.controllers;
 
 import br.edu.ifpb.pweb2.kawa.Athena.models.EnrollmentStatus;
+import br.edu.ifpb.pweb2.kawa.Athena.models.Institution;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Semester;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Student;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.EnrollmentStatusRepository;
@@ -49,7 +50,7 @@ public class EnrollmentStatusController {
         enrollmentStatus.getStudent().setCurrentEnrollmentStatus(enrollmentStatus);
         this.enrollmentStatusRepository.save(enrollmentStatus);
         modelAndView.setViewName("redirect:enrollments/list");
-        redirectAttributes.addFlashAttribute("message", "Enrollment Status saved!");
+        redirectAttributes.addFlashAttribute("message", "Declaração emitida com sucesso!");
         return modelAndView;
     }
 
@@ -80,10 +81,10 @@ public class EnrollmentStatusController {
             Student student = enrollmentStatus.get().getStudent();
             student.setCurrentEnrollmentStatus(null);
             this.enrollmentStatusRepository.deleteById(id);
-            redirectAttributes.addFlashAttribute("message", "Enrollment Status removed!");
+            redirectAttributes.addFlashAttribute("message", "Declaração deletada com sucesso!");
             modelAndView.setViewName("redirect:/enrollments/list");
         } else{
-            redirectAttributes.addFlashAttribute("message", "Enrollment Status not found!");
+            redirectAttributes.addFlashAttribute("message", "Declaração não encontrada!");
             modelAndView.setViewName("redirect:/enrollments/list");
         }
         return modelAndView;
@@ -91,16 +92,8 @@ public class EnrollmentStatusController {
 
     @DeleteMapping("/{id}")
     public ModelAndView deleteByIdTest(Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
-        Optional<EnrollmentStatus> enrollmentStatus = this.enrollmentStatusRepository.findById(id);
-        if(enrollmentStatus.isPresent()){
-            Student student = enrollmentStatus.get().getStudent();
-            student.setCurrentEnrollmentStatus(null);
-            this.studentRepository.save(student);
-            this.enrollmentStatusRepository.deleteById(id);
-            redirectAttributes.addFlashAttribute("message", "Enrollment Status removed!");
-            modelAndView.setViewName("redirect:/enrollments/list");
-        }
-        redirectAttributes.addFlashAttribute("message", "Enrollment Status not found!");
+        this.enrollmentStatusRepository.deleteById(id);
+        redirectAttributes.addFlashAttribute("message", "Declaração deletada com sucesso!");
         modelAndView.setViewName("redirect:/enrollments/list");
         return modelAndView;
     }
