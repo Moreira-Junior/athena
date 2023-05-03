@@ -23,7 +23,7 @@ public class Institution {
     private String name;
     @NotBlank(message = "Field required!")
     private String shortName;
-    @OneToMany(mappedBy = "institution")
+    @OneToMany(mappedBy = "institution", cascade = {CascadeType.ALL})
     @JsonBackReference
     private List<Semester> semesters;
     @OneToMany(mappedBy = "institution")
@@ -35,5 +35,10 @@ public class Institution {
     @JsonManagedReference(value = "institution-semester")
     public List<Semester> getSemesters() {
         return this.semesters;
+    }
+
+    public void detachStudents(){
+        this.students.forEach(student -> student.setInstitution(null));
+        this.students.clear();
     }
 }

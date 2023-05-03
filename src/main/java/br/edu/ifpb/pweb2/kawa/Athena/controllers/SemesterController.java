@@ -74,12 +74,12 @@ public class SemesterController {
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteById(@PathVariable(value = "id")Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
         Optional<Semester> semester = this.semesterRepository.findById(id);
-        List<EnrollmentStatus> enrollments = this.enrollmentStatusRepository.findBySemesterId(id);
-        enrollments.forEach( enrollmentStatus -> {
-            enrollmentStatus.dettachObjects();
-            this.enrollmentStatusRepository.deleteById(enrollmentStatus.getId());
-        });
         if(semester.isPresent()){
+            List<EnrollmentStatus> enrollments = this.enrollmentStatusRepository.findBySemesterId(id);
+            enrollments.forEach( enrollmentStatus -> {
+                enrollmentStatus.dettachObjects();
+                this.enrollmentStatusRepository.deleteById(enrollmentStatus.getId());
+            });
             semester.get().getInstitution().setCurrentSemester(null);
             this.semesterRepository.deleteById(id);
             redirectAttributes.addFlashAttribute("message", "Período deletado com sucesso!");
