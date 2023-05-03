@@ -3,7 +3,6 @@ package br.edu.ifpb.pweb2.kawa.Athena.controllers;
 import br.edu.ifpb.pweb2.kawa.Athena.models.EnrollmentStatus;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Institution;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Semester;
-import br.edu.ifpb.pweb2.kawa.Athena.models.Student;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.EnrollmentStatusRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.InstitutionRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.SemesterRepository;
@@ -77,7 +76,7 @@ public class SemesterController {
         if(semester.isPresent()){
             List<EnrollmentStatus> enrollments = this.enrollmentStatusRepository.findBySemesterId(id);
             enrollments.forEach( enrollmentStatus -> {
-                enrollmentStatus.dettachObjects();
+                enrollmentStatus.detachObjects();
                 this.enrollmentStatusRepository.deleteById(enrollmentStatus.getId());
             });
             semester.get().getInstitution().setCurrentSemester(null);

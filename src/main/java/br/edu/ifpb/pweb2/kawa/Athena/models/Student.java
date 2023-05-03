@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 @Data
 @NoArgsConstructor
@@ -27,7 +26,7 @@ public class Student {
     private Institution institution;
     @OneToMany(mappedBy = "student", cascade = {CascadeType.ALL})
     @ToString.Exclude
-    private List<EnrollmentStatus> enrollmentStatus;
+    private List<EnrollmentStatus> enrollmentStatuses;
     @OneToOne
     @ToString.Exclude
     private EnrollmentStatus currentEnrollmentStatus;

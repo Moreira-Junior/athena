@@ -42,7 +42,7 @@
                 <label class="col-sm-2 col-form-label">Declaração</label>
                 <select class="form-select" aria-label="Default select example" th:field="*{currentEnrollmentStatus}" id="currentEnrollmentStatus" name="currentEnrollmentStatus">
                     <option selected value="">Selecione...</option>
-                    <option th:each="enrollment : *{enrollmentStatus}" th:value="${enrollment.id}" th:label="${enrollment.semester.description}"></option>
+                    <option th:each="enrollment : *{enrollmentStatuses}" th:value="${enrollment.id}" th:label="${enrollment.semester.description}"></option>
                 </select>
             </div>
         </div>
