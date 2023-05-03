@@ -45,7 +45,7 @@
                 <tr th:each="student : ${students}">
                     <td th:text="${student.name}"></td>
                     <td th:text="${student.registrationCode}"></td>
-                    <td th:text="${student.institution.name}"></td>
+                    <td th:text="${student.institution == null? 'Não cadastrado' : student.institution.name}"></td>
                     <td th:text="${student.currentEnrollmentStatus == null ? 'Não cadastrado' : student.currentEnrollmentStatus.semester.description}"></td>
                     <td style="width: 1px"><a class="border-0 bg-transparent" th:href="@{/students/{id}/edit(id=${student.id})}"><i class="bi bi-pencil-fill" style="color:#212529"></i></a></td>
                     <td><a th:href="@{/students/{id}/delete(id=${student.id})}"><i class="bi bi-trash-fill" style="color:#dc3545"></i></a></td>
