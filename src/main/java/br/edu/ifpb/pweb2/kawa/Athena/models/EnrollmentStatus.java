@@ -1,21 +1,17 @@
 package br.edu.ifpb.pweb2.kawa.Athena.models;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class EnrollmentStatus {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

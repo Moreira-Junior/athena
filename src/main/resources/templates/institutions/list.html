@@ -44,7 +44,7 @@
             <tr th:each="institution : ${institutions}">
               <td th:text="${institution.name}"></td>
               <td th:text="${institution.shortName}"></td>
-              <td th:text="${institution.semesters.size() == 0 ? 'Não cadastrado' : institution.currentSemester.description}"></td>
+              <td th:text="${institution.semesters.size() == 0 ? 'Não cadastrado' : institution.currentSemester == null ? 'Não cadastrado' : institution.currentSemester.description}"></td>
               <td style="width: 1px"><a class="border-0 bg-transparent" th:href="@{/institutions/{id}/edit(id=${institution.id})}"><i class="bi bi-pencil-fill" style="color:#212529"></i></a></td>
               <td><a th:href="@{/institutions/{id}/delete(id=${institution.id})}"><i class="bi bi-trash-fill" style="color:#dc3545"></i></a></td>
             </tr>
