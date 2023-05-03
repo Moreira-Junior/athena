@@ -76,9 +76,17 @@ public class EnrollmentStatusController {
 
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteById(@PathVariable(value = "id")Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
-        this.enrollmentStatusRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("message", "Declaração deletada com sucesso!");
-        modelAndView.setViewName("redirect:/enrollments/list");
+        Optional<EnrollmentStatus> enrollmentStatus = this.enrollmentStatusRepository.findById(id);
+        if(enrollmentStatus.isPresent()){
+            Student student = enrollmentStatus.get().getStudent();
+            student.setCurrentEnrollmentStatus(null);
+            this.enrollmentStatusRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", "Declaração deletada com sucesso!");
+            modelAndView.setViewName("redirect:/enrollments/list");
+        } else{
+            redirectAttributes.addFlashAttribute("message", "Declaração não encontrada!");
+            modelAndView.setViewName("redirect:/enrollments/list");
+        }
         return modelAndView;
     }
 

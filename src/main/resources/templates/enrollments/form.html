@@ -34,6 +34,13 @@
                     <option th:each="student : ${studentsItems}" th:value="${student.id}" th:label="${student.name}"></option>
                 </select>
             </div>
+            <div class="col-md-4">
+                <label class="col-sm-2 col-form-label">Período</label>
+                <select class="form-select" required aria-label="Default select example" th:field="*{semester}" id="semester" name="semester">
+                    <option selected value="">Selecione...</option>
+                    <option th:each="semester : ${semestersItems}" th:value="${semester.id}" th:label="${semester.description + ' - ' + semester.institution.name}"></option>
+                </select>
+            </div>
         </div>
         <div class="row mt-4">
             <div class="d-flex justify-content-end">

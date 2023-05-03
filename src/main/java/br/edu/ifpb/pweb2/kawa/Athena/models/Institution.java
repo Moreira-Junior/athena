@@ -25,12 +25,12 @@ public class Institution {
     private String name;
     @NotBlank(message = "Field required!")
     private String shortName;
-    @OneToMany(mappedBy = "institution")
+    @OneToMany(mappedBy = "institution", orphanRemoval = true)
     @JsonBackReference
     private List<Semester> semesters;
-    @OneToMany(mappedBy = "institution")
+    @OneToMany(mappedBy = "institution", orphanRemoval = true)
     private List<Student> students;
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     private Semester currentSemester;
     @JsonManagedReference(value = "institution-semester")
     public List<Semester> getSemesters(){

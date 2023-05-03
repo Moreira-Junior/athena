@@ -67,9 +67,16 @@ public class SemesterController {
 
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteById(@PathVariable(value = "id")Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
-        this.semesterRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("message", "Período deletado com sucesso!");
-        modelAndView.setViewName("redirect:/semesters/list");
+        Optional<Semester> semester = this.semesterRepository.findById(id);
+        if(semester.isPresent()){
+            semester.get().getInstitution().setCurrentSemester(null);
+            this.semesterRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", "Período deletado com sucesso!");
+            modelAndView.setViewName("redirect:/semesters/list");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Período não encontrado!");
+            modelAndView.setViewName("redirect:/semesters/list");
+        }
         return modelAndView;
     }
 }

@@ -5,7 +5,10 @@ import br.edu.ifpb.pweb2.kawa.Athena.models.Semester;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.InstitutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -55,8 +58,13 @@ public class InstitutionController {
 
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteById(@PathVariable(value = "id")Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
-        this.institutionRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("message", "Instituição deletada com sucesso!");
+        Optional<Institution> institution = this.institutionRepository.findById(id);
+        if(institution.isPresent()){
+            this.institutionRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", "Instituição deletada com sucesso!");
+            modelAndView.setViewName("redirect:/institutions/list");
+        }
+        redirectAttributes.addFlashAttribute("message", "Instituição não encontrada!");
         modelAndView.setViewName("redirect:/institutions/list");
         return modelAndView;
     }
