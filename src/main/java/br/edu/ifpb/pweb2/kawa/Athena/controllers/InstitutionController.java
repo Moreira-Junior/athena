@@ -29,7 +29,7 @@ public class InstitutionController {
     public ModelAndView save(Institution institution, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
         this.institutionRepository.save(institution);
         modelAndView.setViewName("redirect:institutions/list");
-        redirectAttributes.addFlashAttribute("message", "Institution saved!");
+        redirectAttributes.addFlashAttribute("message", "Instituição cadastrada com sucesso!");
         return modelAndView;
     }
 
@@ -56,7 +56,7 @@ public class InstitutionController {
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteById(@PathVariable(value = "id")Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
         this.institutionRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("message", "Institution removed!");
+        redirectAttributes.addFlashAttribute("message", "Instituição deletada com sucesso!");
         modelAndView.setViewName("redirect:/institutions/list");
         return modelAndView;
     }

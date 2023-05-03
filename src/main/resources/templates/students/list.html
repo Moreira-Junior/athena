@@ -1,42 +1,60 @@
-<html xmlns:th="www.thymeleaf.org">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Students</title>
-</head>
+<!doctype html>
+<html lang="pt_BR" xmlns:th="www.thymeleaf.org">
+<head th:replace="~{/fragments/head :: content(title='Lista de Estudantes')}"></head>
 
 <body>
-<h1>Students register</h1>
+<nav th:replace="~{/fragments/navbar}"></nav>
+<div class="d-flex justify-content-end mb-5">
+    <div th:if="${message}" style="margin-right: 30px; margin-top: 30px">
+        <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
+            <i class="bi bi-check-circle-fill" style="margin-right: 10px"></i>
+            <div th:text="${message}">
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
 
+    <div th:unless="${message}"></div>
+</div>
 
-<form th:action="@{/students/form}" method="GET">
-    <button class="btn btn-primary" type="submit">New</button>
-</form>
-<br />
-<div th:text="${message}" style="color: blue; margin-bottom: 10px;"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+            <h1>Lista de Estudantes</h1>
+        </div>
+        <div class="col-md ml-auto d-flex justify-content-end align-items-center">
+            <form th:action="@{/students/form}" method="GET">
+                <button class="btn btn-dark" type="submit">Novo estudante</button>
+            </form>
+        </div>
+    </div>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Registration Code</th>
-        <th>Institution</th>
-        <th>Current Enrollment Status</th>
-        <th></th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="student : ${students}">
-        <td th:text="${student.name}"></td>
-        <td th:text="${student.registrationCode}"></td>
-        <td th:text="${student.institution.name}"></td>
-        <td th:text="${student.currentEnrollmentStatus == null ? 'Não cadastrado' : student.currentEnrollmentStatus.semester.description}"></td>
-        <td><a th:href="@{/students/{id}/edit(id=${student.id})}">Edit</a></td>
-        <td><a th:href="@{/students/{id}/delete(id=${student.id})}">Remove</a></td>
-    </tr>
-    </tbody>
-</table>
+    <div class="row mt-5">
+        <div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Matrícula</th>
+                    <th>Instituição</th>
+                    <th>Período</th>
+                    <th colspan="2"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="student : ${students}">
+                    <td th:text="${student.name}"></td>
+                    <td th:text="${student.registrationCode}"></td>
+                    <td th:text="${student.institution.name}"></td>
+                    <td th:text="${student.currentEnrollmentStatus == null ? 'Não cadastrado' : student.currentEnrollmentStatus.semester.description}"></td>
+                    <td style="width: 1px"><a class="border-0 bg-transparent" th:href="@{/students/{id}/edit(id=${student.id})}"><i class="bi bi-pencil-fill" style="color:#212529"></i></a></td>
+                    <td><a th:href="@{/students/{id}/delete(id=${student.id})}"><i class="bi bi-trash-fill" style="color:#dc3545"></i></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>

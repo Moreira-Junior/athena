@@ -38,7 +38,7 @@ public class StudentController {
     public ModelAndView save(Student student, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
         this.studentRepository.save(student);
         modelAndView.setViewName("redirect:students/list");
-        redirectAttributes.addFlashAttribute("message", "Student saved!");
+        redirectAttributes.addFlashAttribute("message", "Estudante cadastrado com sucesso!");
         return modelAndView;
     }
 
@@ -67,7 +67,7 @@ public class StudentController {
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteById(@PathVariable(value = "id")Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
         this.studentRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("message", "Student removed!");
+        redirectAttributes.addFlashAttribute("message", "Estudante deletado com sucesso!");
         modelAndView.setViewName("redirect:/students/list");
         return modelAndView;
     }

@@ -50,7 +50,7 @@ public class EnrollmentStatusController {
         enrollmentStatus.getStudent().setCurrentEnrollmentStatus(enrollmentStatus);
         this.enrollmentStatusRepository.save(enrollmentStatus);
         modelAndView.setViewName("redirect:enrollments/list");
-        redirectAttributes.addFlashAttribute("message", "Enrollment Status saved!");
+        redirectAttributes.addFlashAttribute("message", "Declaração emitida com sucesso!");
         return modelAndView;
     }
 
@@ -77,7 +77,7 @@ public class EnrollmentStatusController {
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteById(@PathVariable(value = "id")Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
         this.enrollmentStatusRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("message", "Enrollment Status removed!");
+        redirectAttributes.addFlashAttribute("message", "Declaração deletada com sucesso!");
         modelAndView.setViewName("redirect:/enrollments/list");
         return modelAndView;
     }
@@ -85,7 +85,7 @@ public class EnrollmentStatusController {
     @DeleteMapping("/{id}")
     public ModelAndView deleteByIdTest(Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
         this.enrollmentStatusRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("message", "Enrollment Status removed!");
+        redirectAttributes.addFlashAttribute("message", "Declaração deletada com sucesso!");
         modelAndView.setViewName("redirect:/enrollments/list");
         return modelAndView;
     }

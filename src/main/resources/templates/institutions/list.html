@@ -1,40 +1,58 @@
-<html xmlns:th="www.thymeleaf.org">
-
-<head>
-  <meta charset="UTF-8">
-  <title>Institutions</title>
-</head>
+<!doctype html>
+<html lang="pt_BR" xmlns:th="www.thymeleaf.org">
+<head th:replace="~{/fragments/head :: content(title='Lista de Instituições')}"></head>
 
 <body>
-<h1>Institutions register</h1>
+  <nav th:replace="~{/fragments/navbar}"></nav>
+  <div class="d-flex justify-content-end mb-5">
+    <div th:if="${message}" style="margin-right: 30px; margin-top: 30px">
+      <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
+        <i class="bi bi-check-circle-fill" style="margin-right: 10px"></i>
+        <div th:text="${message}">
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
 
+    <div th:unless="${message}"></div>
+  </div>
 
-<form th:action="@{/institutions/form}" method="GET">
-  <button class="btn btn-primary" type="submit">New</button>
-</form>
-<br />
-<div th:text="${message}" style="color: blue; margin-bottom: 10px;"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md">
+        <h1>Lista de Instituições</h1>
+      </div>
+      <div class="col-md ml-auto d-flex justify-content-end align-items-center">
+        <form th:action="@{/institutions/form}" method="GET">
+          <button class="btn btn-dark" type="submit">Nova instituição</button>
+        </form>
+      </div>
+    </div>
 
-<table border="1">
-  <thead>
-  <tr>
-    <th>Name</th>
-    <th>Short Name</th>
-    <th>Semester</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="institution : ${institutions}">
-    <td th:text="${institution.name}"></td>
-    <td th:text="${institution.shortName}"></td>
-<!--    <td th:text="${institution.semesters.size() == 0 ? 'Não cadastrado' : institution.semesters[institution.semesters.size() - 1].description}"></td>-->
-    <td th:text="${institution.semesters.size() == 0 ? 'Não cadastrado' : institution.currentSemester.description}"></td>
-    <td><a th:href="@{/institutions/{id}/edit(id=${institution.id})}">Edit</a></td>
-    <td><a th:href="@{/institutions/{id}/delete(id=${institution.id})}">Remove</a></td>
-  </tr>
-  </tbody>
-</table>
+    <div class="row mt-5">
+      <div>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Abreviação</th>
+              <th>Período</th>
+              <th colspan="2">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="institution : ${institutions}">
+              <td th:text="${institution.name}"></td>
+              <td th:text="${institution.shortName}"></td>
+              <td th:text="${institution.semesters.size() == 0 ? 'Não cadastrado' : institution.currentSemester.description}"></td>
+              <td style="width: 1px"><a class="border-0 bg-transparent" th:href="@{/institutions/{id}/edit(id=${institution.id})}"><i class="bi bi-pencil-fill" style="color:#212529"></i></a></td>
+              <td><a th:href="@{/institutions/{id}/delete(id=${institution.id})}"><i class="bi bi-trash-fill" style="color:#dc3545"></i></a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

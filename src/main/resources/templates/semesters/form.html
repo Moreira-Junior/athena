@@ -1,50 +1,57 @@
 <!doctype html>
 <html lang="pt_BR" xmlns:th="www.thymeleaf.org">
-
-<head>
-    <title>Athena - Semester Form</title>
-</head>
+<head th:replace="~{/fragments/head :: content(title='Novo Período')}"></head>
 
 <body>
-<h1 class="mb-3">Semester registration</h1>
+<nav th:replace="~{/fragments/navbar}"></nav>
+<div class="d-flex justify-content-end mb-5">
+    <div th:if="${message}" style="margin-right: 30px; margin-top: 30px">
+        <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
+            <i class="bi bi-check-circle-fill" style="margin-right: 10px"></i>
+            <div th:text="${message}">
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
 
-<div th:text="${message}" style="color: red"></div>
+    <div th:unless="${message}"></div>
+</div>
+<div class="container">
+    <div class="row mb-5">
+        <h1>Cadastro de período</h1>
+    </div>
+    <form th:action="@{/semesters}" method="POST" th:object="${semester}">
+        <div class="row">
+            <input type="hidden" th:field="*{id}"/>
+            <div class="col-md-3">
+                <label class="col-form-label">Descrição</label>
+                <input type="text" class="form-control" required th:field="*{description}" id="description" name="description">
+            </div>
+            <div class="col-md-3">
+                <label class="col-form-label">Data inicial</label>
+                <input type="date" class="form-control" required th:field="*{startsAt}" id="startsAt" name="startsAt" th:format="'yyyy-MM-dd'">
+            </div>
+            <div class="col-md-3">
+                <label class="col-form-label">Data final</label>
+                <input type="date" class="form-control" required th:field="*{endsAt}" id="endsAt" name="endsAt" th:format="'yyyy-MM-dd'">
+            </div>
+            <div class="col-md-3">
+                <label class="col-form-label">Instituição</label>
+                <select class="form-select" required aria-label="Default select example" th:field="*{institution}" id="institution" name="institution">
+                    <option selected value="">Selecione...</option>
+                    <option th:each="institution : ${institutionsItems}" th:value="${institution.id}" th:label="${institution.name}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="d-flex justify-content-end">
+                <a class="btn btn-secondary" style="margin-right: 20px" th:href="@{/semesters/list}">Cancel</a>
+                <button class="btn btn-success" type="submit" value="Save">Salvar</button>
+            </div>
 
-<!doctype html>
-<html lang="pt_BR" xmlns:th="www.thymeleaf.org">
-
-<head>
-    <title>Athena - Student Form</title>
-</head>
-
-<body>
-<h1 class="mb-3">Student registration</h1>
-
-<div th:text="${message}" style="color: red"></div>
-
-
-<form th:action="@{/semesters}" method="POST" th:object="${semester}">
-    <input type="hidden" th:field="*{id}"/>
-    <label for="startsAt">Start date:</label>
-    <input type="date" th:field="*{startsAt}" id="startsAt" name="startsAt" th:format="'yyyy-MM-dd'"><br><br>
-
-    <label for="endsAt">End date:</label>
-    <input type="date" th:field="*{endsAt}" id="endsAt" name="endsAt" th:format="'yyyy-MM-dd'"><br><br>
-
-    <label for="description">Description:</label>
-    <input type="text" th:field="*{description}" id="description" name="description"><br><br>
-
-    <label for="institution">Institution:</label>
-    <select th:field="*{institution}" id="institution" name="institution">
-        <option th:each="institution : ${institutionsItems}" th:value="${institution.id}" th:label="${institution.name}"></option>
-    </select><br><br>
-
-    <button type="submit">Save</button>
-    <a th:href="@{/semesters/list}">Cancel</a>
-</form>
-</body>
-
-</html>
+        </div>
+    </form>
+</div>
 </body>
 
 </html>
