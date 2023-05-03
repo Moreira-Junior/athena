@@ -1,8 +1,10 @@
 package br.edu.ifpb.pweb2.kawa.Athena.controllers;
 
+import br.edu.ifpb.pweb2.kawa.Athena.models.EnrollmentStatus;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Institution;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Semester;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Student;
+import br.edu.ifpb.pweb2.kawa.Athena.repositories.EnrollmentStatusRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.InstitutionRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.SemesterRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.StudentRepository;
@@ -23,6 +25,10 @@ public class SemesterController {
     private InstitutionRepository institutionRepository;
     @Autowired
     private SemesterRepository semesterRepository;
+    @Autowired
+    private EnrollmentStatusRepository enrollmentStatusRepository;
+    @Autowired
+    private StudentRepository studentRepository;
 
     @GetMapping("/form")
     public ModelAndView getForm(ModelAndView modelAndView){
@@ -68,6 +74,11 @@ public class SemesterController {
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteById(@PathVariable(value = "id")Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
         Optional<Semester> semester = this.semesterRepository.findById(id);
+        List<EnrollmentStatus> enrollments = this.enrollmentStatusRepository.findBySemesterId(id);
+        enrollments.forEach( enrollmentStatus -> {
+            enrollmentStatus.dettachObjects();
+            this.enrollmentStatusRepository.deleteById(enrollmentStatus.getId());
+        });
         if(semester.isPresent()){
             semester.get().getInstitution().setCurrentSemester(null);
             this.semesterRepository.deleteById(id);

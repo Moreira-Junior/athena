@@ -15,17 +15,19 @@ public class EnrollmentStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotNull(message = "Field required")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate receivingDate = LocalDate.now();
     @NotBlank(message = "Field required!")
     private String observation;
-    @NotNull(message = "Field required")
     @ManyToOne
     @JoinColumn(name = "id_semester")
     private Semester semester;
-    @NotNull(message = "Field required")
     @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "id_student")
     private Student student;
+
+    public void dettachObjects(){
+        student.setCurrentEnrollmentStatus(null);
+        setSemester(null);
+    }
 }
