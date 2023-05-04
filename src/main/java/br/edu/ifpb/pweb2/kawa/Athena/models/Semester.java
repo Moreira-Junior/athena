@@ -27,7 +27,6 @@ public class Semester {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Future(message = "Date should be in the future!")
     private LocalDate endsAt;
-    @NotNull(message = "Required field")
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "id_institution")
     private Institution institution;
