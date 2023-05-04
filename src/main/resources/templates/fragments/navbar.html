@@ -1,36 +1,36 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-    <div class="container-fluid">
-        <img th:src="@{/img/logo.jpeg}" width="30px"/>
-        <form th:action="@{/layout/home}" method="GET">
-            <button class="navbar-brand border-0 bg-transparent" href="#"><strong>Athena</strong></button>
-        </form>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <form th:action="@{/institutions/list}" method="GET">
-                        <button class="nav-link active border-0 bg-transparent">Instituições</button>
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <form th:action="@{/students/list}" method="GET">
-                        <button class="nav-link active border-0 bg-transparent">Estudantes</button>
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <form th:action="@{/enrollments/list}" method="GET">
-                        <button class="nav-link active border-0 bg-transparent">Declarações</button>
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <form th:action="@{/semesters/list}" method="GET">
-                        <button class="nav-link active border-0 bg-transparent">Períodos</button>
-                    </form>
-                </li>
-            </ul>
+<div th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+        <div class="container-fluid">
+            <img th:src="@{/img/logo.jpeg}" class="ms-4 me-2" width="30px"/>
+            <a class="navbar-brand border-0 bg-transparent" th:href="@{/home}"><strong>Athena</strong></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <form th:action="@{/institutions/list}" method="GET">
+                            <button class="nav-link active border-0 bg-transparent">Instituições</button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <form th:action="@{/students/list}" method="GET">
+                            <button class="nav-link active border-0 bg-transparent">Estudantes</button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <form th:action="@{/enrollments/list}" method="GET">
+                            <button class="nav-link active border-0 bg-transparent">Declarações</button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <form th:action="@{/semesters/list}" method="GET">
+                            <button class="nav-link active border-0 bg-transparent">Períodos</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+</div>
 

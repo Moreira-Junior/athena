@@ -1,0 +1,22 @@
+<!doctype html>
+    <html lang="pt_BR" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+    <head>
+        <meta th:insert="~{/fragments/head :: content(${title})}">
+    </head>
+    <body>
+        <div th:replace="~{/fragments/navbar :: navbar}"/>
+        <div class="d-flex justify-content-end mb-5">
+            <div th:if="${message ne null}" style="margin-right: 30px; margin-top: 30px">
+                <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
+                    <i class="bi bi-check-circle-fill" style="margin-right: 10px"></i>
+                    <div th:text="${message}">
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        <div layout:fragment="content">
+            <!--Conteúdo do template entra aqui -->
+        </div>
+    </body>
+</html>
