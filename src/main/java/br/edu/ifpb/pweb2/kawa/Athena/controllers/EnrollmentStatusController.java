@@ -1,7 +1,6 @@
 package br.edu.ifpb.pweb2.kawa.Athena.controllers;
 
 import br.edu.ifpb.pweb2.kawa.Athena.models.EnrollmentStatus;
-import br.edu.ifpb.pweb2.kawa.Athena.models.Institution;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Semester;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Student;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.EnrollmentStatusRepository;
@@ -87,14 +86,6 @@ public class EnrollmentStatusController {
             redirectAttributes.addFlashAttribute("message", "Declaração não encontrada!");
             modelAndView.setViewName("redirect:/enrollments/list");
         }
-        return modelAndView;
-    }
-
-    @DeleteMapping("/{id}")
-    public ModelAndView deleteByIdTest(Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
-        this.enrollmentStatusRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("message", "Declaração deletada com sucesso!");
-        modelAndView.setViewName("redirect:/enrollments/list");
         return modelAndView;
     }
 }
