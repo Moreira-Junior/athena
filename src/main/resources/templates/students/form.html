@@ -1,53 +1,42 @@
-<!doctype html>
-<html lang="pt_BR" xmlns:th="www.thymeleaf.org">
-<head th:replace="~{/fragments/head :: content(title='Novo Estudante')}"></head>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/layout}"
+        th:with="title='Novo Estudante'">
+    <body>
+        <div layout:fragment="content">
+            <div class="container">
+                <div class="row mb-5">
+                    <h1>Cadastro de estudante</h1>
+                </div>
+                <form th:action="@{/students}" method="POST" th:object="${student}">
+                    <div class="row">
+                        <input type="hidden" th:field="*{id}"/>
+                        <div class="col-md-4">
+                            <label class="col-sm-2 col-form-label">Nome</label>
+                            <input type="text" class="form-control" required th:field="*{name}" id="name" name="name">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-2 col-form-label">Matrícula</label>
+                            <input type="text" class="form-control" required th:field="*{registrationCode}" id="reg_code" name="reg_code">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-2 col-form-label">Instituição</label>
+                            <select class="form-select" required aria-label="Default select example" th:field="*{institution}" id="institution" name="institution">
+                                <option selected value="">Selecione...</option>
+                                <option th:each="institution : ${institutionsItems}" th:value="${institution.id}" th:label="${institution.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-secondary" style="margin-right: 20px" th:href="@{/students/list}">Cancel</a>
+                            <button class="btn btn-success" type="submit" value="Save">Salvar</button>
+                        </div>
 
-<body>
-<nav th:replace="~{/fragments/navbar}"></nav>
-<div class="d-flex justify-content-end mb-5">
-    <div th:if="${message}" style="margin-right: 30px; margin-top: 30px">
-        <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
-            <i class="bi bi-check-circle-fill" style="margin-right: 10px"></i>
-            <div th:text="${message}">
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
-
-    <div th:unless="${message}"></div>
-</div>
-<div class="container">
-    <div class="row mb-5">
-        <h1>Cadastro de estudante</h1>
-    </div>
-    <form th:action="@{/students}" method="POST" th:object="${student}">
-        <div class="row">
-            <input type="hidden" th:field="*{id}"/>
-            <div class="col-md-4">
-                <label class="col-sm-2 col-form-label">Nome</label>
-                <input type="text" class="form-control" required th:field="*{name}" id="name" name="name">
-            </div>
-            <div class="col-md-4">
-                <label class="col-sm-2 col-form-label">Matrícula</label>
-                <input type="text" class="form-control" required th:field="*{registrationCode}" id="reg_code" name="reg_code">
-            </div>
-            <div class="col-md-4">
-                <label class="col-sm-2 col-form-label">Instituição</label>
-                <select class="form-select" required aria-label="Default select example" th:field="*{institution}" id="institution" name="institution">
-                    <option selected value="">Selecione...</option>
-                    <option th:each="institution : ${institutionsItems}" th:value="${institution.id}" th:label="${institution.name}"></option>
-                </select>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="row mt-4">
-            <div class="d-flex justify-content-end">
-                <a class="btn btn-secondary" style="margin-right: 20px" th:href="@{/students/list}">Cancel</a>
-                <button class="btn btn-success" type="submit" value="Save">Salvar</button>
-            </div>
-
-        </div>
-    </form>
-</div>
-</body>
+    </body>
 
 </html>
