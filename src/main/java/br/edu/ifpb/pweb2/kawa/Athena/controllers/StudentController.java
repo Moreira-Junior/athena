@@ -49,6 +49,13 @@ public class StudentController {
         return modelAndView;
     }
 
+    @GetMapping("list/withoutEnrollment")
+    public ModelAndView listAllWithoutEnrollment(ModelAndView modelAndView){
+        modelAndView.addObject("students", this.studentRepository.findByEnrollmentStatusesIsNull());
+        modelAndView.setViewName("students/list");
+        return modelAndView;
+    }
+
     @GetMapping("/{id}/edit")
     public ModelAndView editForm(@PathVariable("id") Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
         Optional<Student> optionalStudent = studentRepository.findById(id);

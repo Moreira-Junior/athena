@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +57,22 @@ public class EnrollmentStatusController {
     @GetMapping("list")
     public ModelAndView listAll(ModelAndView modelAndView){
         modelAndView.addObject("enrollmentStatusList", this.enrollmentStatusRepository.findAll());
+        modelAndView.setViewName("enrollments/list");
+        return modelAndView;
+    }
+
+    @GetMapping("list/overdue")
+    public ModelAndView listOverdue(ModelAndView modelAndView){
+        modelAndView.addObject("enrollmentStatusList", this.enrollmentStatusRepository.findBySemesterEndsAtBefore(LocalDate.now()));
+        modelAndView.setViewName("enrollments/list");
+        return modelAndView;
+    }
+
+    @GetMapping("list/overdue/{nDaysAfter}")
+    public ModelAndView listOverdue(ModelAndView modelAndView, @PathVariable(value = "nDaysAfter") Integer nDaysAfter){
+        LocalDate currentDate = LocalDate.now();
+        LocalDate nDaysAfterDate = currentDate.plusDays(nDaysAfter);
+        modelAndView.addObject("enrollmentStatusList", this.enrollmentStatusRepository.findBySemesterEndsAtBetween(currentDate, nDaysAfterDate));
         modelAndView.setViewName("enrollments/list");
         return modelAndView;
     }
