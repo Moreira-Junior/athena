@@ -3,11 +3,9 @@ package br.edu.ifpb.pweb2.kawa.Athena.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -16,12 +14,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    @OneToMany(mappedBy = "username")
-    private List<Authority> authorities;
 
+    @OneToMany(mappedBy = "username", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Authority> authorities;
     @Id
     private String username;
     private String password;
-    private Boolean enabled;
+    private Boolean enabled = true;
 }
 
