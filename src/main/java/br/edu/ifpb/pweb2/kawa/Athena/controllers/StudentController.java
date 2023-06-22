@@ -1,15 +1,18 @@
 package br.edu.ifpb.pweb2.kawa.Athena.controllers;
 
+import br.edu.ifpb.pweb2.kawa.Athena.models.Authority;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Institution;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Student;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.InstitutionRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +39,14 @@ public class StudentController {
 
     @PostMapping
     public ModelAndView save(Student student, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
+        if(student.getId() == null) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            student.getUser().setPassword(encoder.encode(student.getUser().getPassword()));
+            Authority authority = new Authority();
+            Authority.AuthorityId authorityId = new Authority.AuthorityId(student.getUser().getUsername(), "ROLE_ALUNO");
+            authority.setId(authorityId);
+            student.getUser().setAuthorities(Arrays.asList(authority));
+        }
         this.studentRepository.save(student);
         modelAndView.setViewName("redirect:students/list");
         redirectAttributes.addFlashAttribute("message", "Estudante cadastrado com sucesso!");

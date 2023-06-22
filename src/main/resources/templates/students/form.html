@@ -20,6 +20,14 @@
                             <input type="text" class="form-control" required th:field="*{registrationCode}" id="reg_code" name="reg_code">
                         </div>
                         <div class="col-md-4">
+                            <label class="col-sm-2 col-form-label">Usuário</label>
+                            <input type="text" class="form-control" required th:field="*{user.username}" id="username" name="username">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-2 col-form-label">Senha</label>
+                            <input type="text" class="form-control" required th:field="*{user.password}" id="password" name="password">
+                        </div>
+                        <div class="col-md-4">
                             <label class="col-sm-2 col-form-label">Instituição</label>
                             <select class="form-select" required aria-label="Default select example" th:field="*{institution}" id="institution" name="institution">
                                 <option selected value="">Selecione...</option>

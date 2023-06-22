@@ -30,4 +30,7 @@ public class Student {
     @OneToOne
     @ToString.Exclude
     private EnrollmentStatus currentEnrollmentStatus;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "username")
+    private User user;
 }
