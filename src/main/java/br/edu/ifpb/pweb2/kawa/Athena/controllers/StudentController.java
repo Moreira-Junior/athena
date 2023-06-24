@@ -5,7 +5,12 @@ import br.edu.ifpb.pweb2.kawa.Athena.models.Institution;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Student;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.InstitutionRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.StudentRepository;
+import br.edu.ifpb.pweb2.kawa.Athena.ui.NavPage;
+import br.edu.ifpb.pweb2.kawa.Athena.ui.NavePageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -54,8 +59,14 @@ public class StudentController {
     }
 
     @GetMapping("list")
-    public ModelAndView listAll(ModelAndView modelAndView){
-        modelAndView.addObject("students", this.studentRepository.findAll());
+    public ModelAndView listAll(ModelAndView modelAndView, @RequestParam(defaultValue = "1") int page,
+                                @RequestParam(defaultValue = "5") int size){
+        Pageable paging = PageRequest.of(page - 1, size);
+        Page<Student> pageStudents = studentRepository.findAll(paging);
+        NavPage navPage = NavePageBuilder.newNavPage(pageStudents.getNumber() + 1,
+                pageStudents.getTotalElements(), pageStudents.getTotalPages(), size);
+        modelAndView.addObject("students", pageStudents);
+        modelAndView.addObject("navPage", navPage);
         modelAndView.setViewName("students/list");
         return modelAndView;
     }
