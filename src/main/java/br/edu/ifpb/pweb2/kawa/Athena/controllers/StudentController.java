@@ -6,6 +6,7 @@ import br.edu.ifpb.pweb2.kawa.Athena.models.Student;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.InstitutionRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/students")
+@PreAuthorize("hasAnyRole('ADMIN', 'ALUNO')")
 public class StudentController {
 
     @Autowired

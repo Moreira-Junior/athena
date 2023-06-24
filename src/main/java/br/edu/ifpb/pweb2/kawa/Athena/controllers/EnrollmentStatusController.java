@@ -7,6 +7,7 @@ import br.edu.ifpb.pweb2.kawa.Athena.repositories.EnrollmentStatusRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.SemesterRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/enrollments")
+@PreAuthorize("hasAnyRole('ADMIN', 'ALUNO')")
 public class EnrollmentStatusController {
 
     @Autowired
