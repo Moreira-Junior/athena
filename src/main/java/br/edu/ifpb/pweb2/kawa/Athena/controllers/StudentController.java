@@ -8,14 +8,15 @@ import br.edu.ifpb.pweb2.kawa.Athena.repositories.StudentRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.ui.NavPage;
 import br.edu.ifpb.pweb2.kawa.Athena.ui.NavePageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/students")
+@PreAuthorize("hasAnyRole('ADMIN', 'ALUNO')")
 public class StudentController {
 
     @Autowired
