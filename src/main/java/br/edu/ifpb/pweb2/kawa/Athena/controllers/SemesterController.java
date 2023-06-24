@@ -7,7 +7,12 @@ import br.edu.ifpb.pweb2.kawa.Athena.repositories.EnrollmentStatusRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.InstitutionRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.SemesterRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.StudentRepository;
+import br.edu.ifpb.pweb2.kawa.Athena.ui.NavPage;
+import br.edu.ifpb.pweb2.kawa.Athena.ui.NavePageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -51,8 +56,14 @@ public class SemesterController {
     }
 
     @GetMapping("list")
-    public ModelAndView listAll(ModelAndView modelAndView){
-        modelAndView.addObject("semesters", this.semesterRepository.findAll());
+    public ModelAndView listAll(ModelAndView modelAndView, @RequestParam(defaultValue = "1") int page,
+                                @RequestParam(defaultValue = "5") int size){
+        Pageable paging = PageRequest.of(page - 1, size);
+        Page<Semester> pageSemesters = semesterRepository.findAll(paging);
+        NavPage navPage = NavePageBuilder.newNavPage(pageSemesters.getNumber() + 1,
+                pageSemesters.getTotalElements(), pageSemesters.getTotalPages(), size);
+        modelAndView.addObject("semesters", pageSemesters);
+        modelAndView.addObject("navPage", navPage);
         modelAndView.setViewName("semesters/list");
         return modelAndView;
     }

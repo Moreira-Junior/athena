@@ -37,6 +37,8 @@
                 </tr>
               </tbody>
             </table>
+            <!-- Paginator -->
+            <div th:replace="~{fragments/paging :: paginator('institutions/list', ${navPage})}" />
           </div>
         </div>
       </div>

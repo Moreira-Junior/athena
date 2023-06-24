@@ -41,6 +41,8 @@
                             </tr>
                             </tbody>
                         </table>
+                        <!-- Paginator -->
+                        <div th:replace="~{fragments/paging :: paginator('enrollments/list', ${navPage})}" />
                     </div>
                 </div>
             </div>

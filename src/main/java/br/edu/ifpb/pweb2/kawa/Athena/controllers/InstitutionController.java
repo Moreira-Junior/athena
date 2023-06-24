@@ -6,12 +6,14 @@ import br.edu.ifpb.pweb2.kawa.Athena.models.Semester;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.EnrollmentStatusRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.InstitutionRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.SemesterRepository;
+import br.edu.ifpb.pweb2.kawa.Athena.ui.NavPage;
+import br.edu.ifpb.pweb2.kawa.Athena.ui.NavePageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -45,11 +47,18 @@ public class InstitutionController {
     }
 
     @GetMapping("list")
-    public ModelAndView listAll(ModelAndView modelAndView){
-        modelAndView.addObject("institutions", this.institutionRepository.findAll());
+    public ModelAndView listAll(ModelAndView modelAndView, @RequestParam(defaultValue = "1") int page,
+                                @RequestParam(defaultValue = "5") int size){
+        Pageable paging = PageRequest.of(page - 1, size);
+        Page<Institution> pageInstitution = institutionRepository.findAll(paging);
+        NavPage navPage = NavePageBuilder.newNavPage(pageInstitution.getNumber() + 1,
+                pageInstitution.getTotalElements(), pageInstitution.getTotalPages(), size);
+        modelAndView.addObject("institutions", pageInstitution);
+        modelAndView.addObject("navPage", navPage);
         modelAndView.setViewName("institutions/list");
         return modelAndView;
     }
+
 
     @GetMapping("/{id}/edit")
     public ModelAndView editForm(@PathVariable Long id, ModelAndView modelAndView){
