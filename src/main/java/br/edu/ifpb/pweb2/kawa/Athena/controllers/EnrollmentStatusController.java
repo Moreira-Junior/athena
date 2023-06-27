@@ -18,13 +18,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.print.Doc;
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -61,11 +62,15 @@ public class EnrollmentStatusController {
     }
 
     @PostMapping
-    public ModelAndView save(EnrollmentStatus enrollmentStatus,
+    public ModelAndView save(@Valid EnrollmentStatus enrollmentStatus, BindingResult validation,
                              @RequestParam("file") MultipartFile file,
                              ModelAndView modelAndView,
                              RedirectAttributes redirectAttributes
                              ){
+        if(validation.hasErrors()) {
+            modelAndView.setViewName("/enrollments/form");
+            return modelAndView;
+        }
         String msg = "Declaração emitida com sucesso!";
         String nextPage= "enrollments/list";
         enrollmentStatus.setSemester(enrollmentStatus.getStudent().getInstitution().getCurrentSemester());

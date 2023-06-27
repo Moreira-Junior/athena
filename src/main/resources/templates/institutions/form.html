@@ -14,10 +14,12 @@
                         <div class="col-md-4">
                             <label class="col-sm-2 col-form-label">Nome</label>
                             <input type="text" class="form-control" required th:field="*{name}" id="name" name="name">
+                            <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}" class="alert alert-danger" />
                         </div>
                         <div class="col-md-4">
                             <label class="col-sm-2 col-form-label">Abreviação</label>
                             <input type="text" class="form-control" required th:field="*{shortName}" id="shortName" name="shortName">
+                            <p th:if="${#fields.hasErrors('shortName')}" th:errorclass="error" th:errors="*{shortName}" class="alert alert-danger" />
                         </div>
                         <div class="col-md-4">
                             <label class="col-sm-2 col-form-label">Período</label>

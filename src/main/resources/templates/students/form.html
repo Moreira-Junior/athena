@@ -14,18 +14,22 @@
                         <div class="col-md-4">
                             <label class="col-sm-2 col-form-label">Nome</label>
                             <input type="text" class="form-control" required th:field="*{name}" id="name" name="name">
+                            <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}" class="alert alert-danger" />
                         </div>
                         <div class="col-md-4">
                             <label class="col-sm-2 col-form-label">Matrícula</label>
                             <input type="text" class="form-control" required th:field="*{registrationCode}" id="reg_code" name="reg_code">
+                            <p th:if="${#fields.hasErrors('registrationCode')}" th:errorclass="error" th:errors="*{registrationCode}" class="alert alert-danger" />
                         </div>
                         <div class="col-md-4">
                             <label class="col-sm-2 col-form-label">Usuário</label>
                             <input type="text" class="form-control" required th:field="*{user.username}" id="username" name="username">
+                            <p th:if="${#fields.hasErrors('user.username')}" th:errorclass="error" th:errors="*{user.username}" class="alert alert-danger" />
                         </div>
                         <div class="col-md-4">
                             <label class="col-sm-2 col-form-label">Senha</label>
                             <input type="text" class="form-control" required th:field="*{user.password}" id="password" name="password">
+                            <p th:if="${#fields.hasErrors('user.password')}" th:errorclass="error" th:errors="*{user.password}" class="alert alert-danger" />
                         </div>
                         <div class="col-md-4">
                             <label class="col-sm-2 col-form-label">Instituição</label>

@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 @Data
@@ -19,15 +21,16 @@ public class Semester {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Size(min = 4, message = "Size must be at least 4.")
+    @NotBlank(message = "Required field")
     private String description;
     @NotNull(message = "Required field")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startsAt;
     @NotNull(message = "Required field")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-//    @Future(message = "Date should be in the future!")
     private LocalDate endsAt;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "id_institution")
     private Institution institution;
 

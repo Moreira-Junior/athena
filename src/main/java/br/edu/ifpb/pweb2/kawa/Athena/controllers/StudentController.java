@@ -3,24 +3,28 @@ package br.edu.ifpb.pweb2.kawa.Athena.controllers;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Authority;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Institution;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Student;
+import br.edu.ifpb.pweb2.kawa.Athena.models.User;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.InstitutionRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.StudentRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.ui.NavPage;
 import br.edu.ifpb.pweb2.kawa.Athena.ui.NavePageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/students")
@@ -45,7 +49,24 @@ public class StudentController {
     }
 
     @PostMapping
-    public ModelAndView save(Student student, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
+    public ModelAndView save(@Valid Student student, BindingResult validation, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
+        if(validation.hasErrors()) {
+            modelAndView.setViewName("/students/form");
+            return modelAndView;
+        }
+        if (student.getUser() != null) {
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<User>> violations = validator.validate(student.getUser());
+
+            if (!violations.isEmpty()) {
+                for (ConstraintViolation<User> violation : violations) {
+                    validation.rejectValue("user." + violation.getPropertyPath().toString(), null, violation.getMessage());
+                }
+                modelAndView.setViewName("/students/form");
+                return modelAndView;
+            }
+        }
         if(student.getId() == null) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             student.getUser().setPassword(encoder.encode(student.getUser().getPassword()));

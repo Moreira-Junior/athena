@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -19,7 +21,11 @@ public class User {
     @ToString.Exclude
     private List<Authority> authorities;
     @Id
+    @NotBlank(message = "Required Field")
+    @Size(min = 3, message = "Size must be at least 3.")
     private String username;
+    @NotBlank(message = "Required Field")
+    @Size(min = 3, message = "Size must be at least 3.")
     private String password;
     private Boolean enabled = true;
 }

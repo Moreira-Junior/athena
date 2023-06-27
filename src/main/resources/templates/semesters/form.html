@@ -14,14 +14,17 @@
                         <div class="col-md-3">
                             <label class="col-form-label">Descrição</label>
                             <input type="text" class="form-control" required th:field="*{description}" id="description" name="description">
+                            <p th:if="${#fields.hasErrors('description')}" th:errorclass="error" th:errors="*{description}" class="alert alert-danger" />
                         </div>
                         <div class="col-md-3">
                             <label class="col-form-label">Data inicial</label>
                             <input type="date" class="form-control" required th:field="*{startsAt}" id="startsAt" name="startsAt" th:format="'yyyy-MM-dd'">
+                            <p th:if="${#fields.hasErrors('startsAt')}" th:errorclass="error" th:errors="*{startsAt}" class="alert alert-danger" />
                         </div>
                         <div class="col-md-3">
                             <label class="col-form-label">Data final</label>
                             <input type="date" class="form-control" required th:field="*{endsAt}" id="endsAt" name="endsAt" th:format="'yyyy-MM-dd'">
+                            <p th:if="${#fields.hasErrors('endsAt')}" th:errorclass="error" th:errors="*{endsAt}" class="alert alert-danger" />
                         </div>
                         <div class="col-md-3">
                             <label class="col-form-label">Instituição</label>
