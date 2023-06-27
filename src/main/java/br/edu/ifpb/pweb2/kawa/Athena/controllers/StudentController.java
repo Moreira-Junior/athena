@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -85,7 +86,14 @@ public class StudentController {
     public ModelAndView listAll(ModelAndView modelAndView, @RequestParam(defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "5") int size){
         Pageable paging = PageRequest.of(page - 1, size);
-        Page<Student> pageStudents = studentRepository.findAll(paging);
+        Page<Student> pageStudents;
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if(role.equals("[ROLE_ALUNO]")) {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            pageStudents = studentRepository.findByUserUsername(username, paging);
+        } else {
+            pageStudents = studentRepository.findAll(paging);
+        }
         NavPage navPage = NavePageBuilder.newNavPage(pageStudents.getNumber() + 1,
                 pageStudents.getTotalElements(), pageStudents.getTotalPages(), size);
         modelAndView.addObject("students", pageStudents);
@@ -95,6 +103,7 @@ public class StudentController {
     }
 
     @GetMapping("list/withoutEnrollment")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView listAllWithoutEnrollment(ModelAndView modelAndView, @RequestParam(defaultValue = "1") int page,
                                                  @RequestParam(defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
@@ -125,6 +134,7 @@ public class StudentController {
     }
 
     @RequestMapping("/{id}/delete")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView deleteById(@PathVariable(value = "id")Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
         this.studentRepository.deleteById(id);
         redirectAttributes.addFlashAttribute("message", "Estudante deletado com sucesso!");

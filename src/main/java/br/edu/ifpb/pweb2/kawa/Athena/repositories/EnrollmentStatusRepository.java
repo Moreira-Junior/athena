@@ -22,4 +22,6 @@ public interface EnrollmentStatusRepository extends JpaRepository<EnrollmentStat
     Page<EnrollmentStatus> findBySemesterEndsAtBefore(LocalDate currentDate, Pageable pageable);
 
     Page<EnrollmentStatus> findBySemesterEndsAtBetween(LocalDate currentDate, LocalDate nDaysAfter, Pageable pageable);
+
+    Page<EnrollmentStatus> findByStudentUserUsername(String username, Pageable pageable);
 }

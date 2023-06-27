@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface SemesterRepository extends JpaRepository<Semester, Long> {
     List<Semester> findSemestersByInstitutionId(Long id);
+
+    List<Semester> findSemestersByInstitutionStudentsUserUsername(String username);
 }

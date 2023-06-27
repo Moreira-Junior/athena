@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -53,11 +54,21 @@ public class EnrollmentStatusController {
 
     @ModelAttribute("studentsItems")
     public List<Student> getInstitutions(){
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if(role.equals("[ROLE_ALUNO]")) {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            return this.studentRepository.findByUserUsername(username);
+        }
         return this.studentRepository.findAll();
     }
 
     @ModelAttribute("semestersItems")
     public List<Semester> getSemesters(){
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if(role.equals("[ROLE_ALUNO]")) {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            return this.semesterRepository.findSemestersByInstitutionStudentsUserUsername(username);
+        }
         return this.semesterRepository.findAll();
     }
 
@@ -98,7 +109,14 @@ public class EnrollmentStatusController {
     public ModelAndView listAll(ModelAndView modelAndView, @RequestParam(defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "5") int size){
         Pageable paging = PageRequest.of(page - 1, size);
-        Page<EnrollmentStatus> pageEnrollments = enrollmentStatusRepository.findAll(paging);
+        Page<EnrollmentStatus> pageEnrollments;
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if(role.equals("[ROLE_ALUNO]")) {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            pageEnrollments = enrollmentStatusRepository.findByStudentUserUsername(username, paging);
+        } else {
+            pageEnrollments = enrollmentStatusRepository.findAll(paging);
+        }
         NavPage navPage = NavePageBuilder.newNavPage(pageEnrollments.getNumber() + 1,
                 pageEnrollments.getTotalElements(), pageEnrollments.getTotalPages(), size);
         modelAndView.addObject("enrollmentStatusList", pageEnrollments);
@@ -108,6 +126,7 @@ public class EnrollmentStatusController {
     }
 
     @GetMapping("list/overdue")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView listOverdue(ModelAndView modelAndView, @RequestParam(defaultValue = "1") int page,
                                     @RequestParam(defaultValue = "5") int size) {
         LocalDate currentDate = LocalDate.now();
@@ -124,6 +143,7 @@ public class EnrollmentStatusController {
     }
 
     @GetMapping("list/overdue/{nDaysAfter}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView listOverdue(ModelAndView modelAndView, @PathVariable(value = "nDaysAfter") Integer nDaysAfter,
                                     @RequestParam(defaultValue = "1") int page,
                                     @RequestParam(defaultValue = "5") int size) {

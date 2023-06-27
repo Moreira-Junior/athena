@@ -10,4 +10,8 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
     Page<Student> findByEnrollmentStatusesIsNull(Pageable pageable);
+
+    Page<Student> findByUserUsername(String username, Pageable paging);
+
+    List<Student> findByUserUsername(String username);
 }
