@@ -1,6 +1,8 @@
 package br.edu.ifpb.pweb2.kawa.Athena.repositories;
 
 import br.edu.ifpb.pweb2.kawa.Athena.models.EnrollmentStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +19,7 @@ public interface EnrollmentStatusRepository extends JpaRepository<EnrollmentStat
             "WHERE i.id = :institutionId")
     List<EnrollmentStatus> findByInstitution(@Param("institutionId") Long institutionId);
 
-    List<EnrollmentStatus> findBySemesterEndsAtBefore(LocalDate currentDate);
+    Page<EnrollmentStatus> findBySemesterEndsAtBefore(LocalDate currentDate, Pageable pageable);
 
-    List<EnrollmentStatus> findBySemesterEndsAtBetween(LocalDate currentDate, LocalDate nDaysAfter);
+    Page<EnrollmentStatus> findBySemesterEndsAtBetween(LocalDate currentDate, LocalDate nDaysAfter, Pageable pageable);
 }

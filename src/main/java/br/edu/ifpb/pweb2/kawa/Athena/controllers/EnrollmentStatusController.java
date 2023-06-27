@@ -108,17 +108,35 @@ public class EnrollmentStatusController {
     }
 
     @GetMapping("list/overdue")
-    public ModelAndView listOverdue(ModelAndView modelAndView){
-        modelAndView.addObject("enrollmentStatusList", this.enrollmentStatusRepository.findBySemesterEndsAtBefore(LocalDate.now()));
+    public ModelAndView listOverdue(ModelAndView modelAndView, @RequestParam(defaultValue = "1") int page,
+                                    @RequestParam(defaultValue = "5") int size) {
+        LocalDate currentDate = LocalDate.now();
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        Page<EnrollmentStatus> enrollmentStatusPage = enrollmentStatusRepository.findBySemesterEndsAtBefore(currentDate, pageable);
+        NavPage navPage = NavePageBuilder.newNavPage(enrollmentStatusPage.getNumber() + 1,
+                enrollmentStatusPage.getTotalElements(), enrollmentStatusPage.getTotalPages(), size);
+
+        modelAndView.addObject("enrollmentStatusList", enrollmentStatusPage);
+        modelAndView.addObject("navPage", navPage);
         modelAndView.setViewName("enrollments/list");
         return modelAndView;
     }
 
     @GetMapping("list/overdue/{nDaysAfter}")
-    public ModelAndView listOverdue(ModelAndView modelAndView, @PathVariable(value = "nDaysAfter") Integer nDaysAfter){
+    public ModelAndView listOverdue(ModelAndView modelAndView, @PathVariable(value = "nDaysAfter") Integer nDaysAfter,
+                                    @RequestParam(defaultValue = "1") int page,
+                                    @RequestParam(defaultValue = "5") int size) {
         LocalDate currentDate = LocalDate.now();
         LocalDate nDaysAfterDate = currentDate.plusDays(nDaysAfter);
-        modelAndView.addObject("enrollmentStatusList", this.enrollmentStatusRepository.findBySemesterEndsAtBetween(currentDate, nDaysAfterDate));
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        Page<EnrollmentStatus> enrollmentStatusPage = enrollmentStatusRepository.findBySemesterEndsAtBetween(currentDate, nDaysAfterDate, pageable);
+        NavPage navPage = NavePageBuilder.newNavPage(enrollmentStatusPage.getNumber() + 1,
+                enrollmentStatusPage.getTotalElements(), enrollmentStatusPage.getTotalPages(), size);
+
+        modelAndView.addObject("enrollmentStatusList", enrollmentStatusPage);
+        modelAndView.addObject("navPage", navPage);
         modelAndView.setViewName("enrollments/list");
         return modelAndView;
     }

@@ -95,8 +95,16 @@ public class StudentController {
     }
 
     @GetMapping("list/withoutEnrollment")
-    public ModelAndView listAllWithoutEnrollment(ModelAndView modelAndView){
-        modelAndView.addObject("students", this.studentRepository.findByEnrollmentStatusesIsNull());
+    public ModelAndView listAllWithoutEnrollment(ModelAndView modelAndView, @RequestParam(defaultValue = "1") int page,
+                                                 @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        Page<Student> studentPage = studentRepository.findByEnrollmentStatusesIsNull(pageable);
+        NavPage navPage = NavePageBuilder.newNavPage(studentPage.getNumber() + 1,
+                studentPage.getTotalElements(), studentPage.getTotalPages(), size);
+
+        modelAndView.addObject("students", studentPage);
+        modelAndView.addObject("navPage", navPage);
         modelAndView.setViewName("students/list");
         return modelAndView;
     }
