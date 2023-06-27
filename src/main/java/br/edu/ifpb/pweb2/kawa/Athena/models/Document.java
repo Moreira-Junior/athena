@@ -30,4 +30,9 @@ public class Document {
         this.name = name;
         this.file = bytes;
     }
+
+    @Override
+    public String toString(){
+        return name;
+    }
 }

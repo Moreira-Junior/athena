@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 @Data
 @NoArgsConstructor
@@ -17,8 +18,10 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotBlank(message = "Required field!")
+    @Size(min = 3, message = "Size must be at least 3.")
     private String name;
     @NotBlank(message = "Required field!")
+    @Size(min = 3, message = "Size must be at least 3.")
     private String registrationCode;
     @ManyToOne
     @JoinColumn(name = "id_institution")
@@ -33,4 +36,9 @@ public class Student {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username")
     private User user;
+
+    @Override
+    public String toString(){
+        return name;
+    }
 }

@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 @Data
 @NoArgsConstructor
@@ -20,8 +21,10 @@ public class Institution {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotBlank(message = "Field required!")
+    @Size(min = 3, message = "Size must be at least 3.")
     private String name;
     @NotBlank(message = "Field required!")
+    @Size(min = 3, message = "Size must be at least 3.")
     private String shortName;
     @OneToMany(mappedBy = "institution", cascade = {CascadeType.ALL})
     @JsonBackReference
