@@ -42,12 +42,12 @@ public class AppConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(encoder)
-                .withUser(
-                        User.builder().username("admin").password(encoder.encode("admin")).roles("ADMIN").build()
-                )
-                .withUser(
-                        User.builder().username("aluno").password(encoder.encode("aluno")).roles("ALUNO").build()
-                )
+//                .withUser(
+//                        User.builder().username("admin").password(encoder.encode("admin")).roles("ADMIN").build()
+//                )
+//                .withUser(
+//                        User.builder().username("aluno").password(encoder.encode("aluno")).roles("ALUNO").build()
+//                )
         ;
     }
 }

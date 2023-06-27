@@ -25,6 +25,10 @@ public class EnrollmentStatus {
     @JoinColumn(name = "id_student")
     private Student student;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_document")
+    private Document document;
+
     public void detachObjects(){
         student.setCurrentEnrollmentStatus(null);
         setSemester(null);

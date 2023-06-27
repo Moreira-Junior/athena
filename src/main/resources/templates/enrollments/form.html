@@ -8,7 +8,7 @@
                 <div class="row mb-5">
                     <h1>Emissão de declaração</h1>
                 </div>
-                <form th:action="@{/enrollments}" method="POST" th:object="${enrollmentStatus}">
+                <form th:action="@{/enrollments}" method="POST" th:object="${enrollmentStatus}" enctype="multipart/form-data">
                     <div class="row">
                         <input type="hidden" th:field="*{id}"/>
                         <div class="col-md-4">
@@ -28,6 +28,10 @@
                                 <option selected value="">Selecione...</option>
                                 <option th:each="semester : ${semestersItems}" th:value="${semester.id}" th:label="${semester.description + ' - ' + semester.institution.name}"></option>
                             </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-2 col-form-label">Arquivo</label>
+                            <input type="file" class="form-control" id="file" name="file" accept="application/pdf">
                         </div>
                     </div>
                     <div class="row mt-4">

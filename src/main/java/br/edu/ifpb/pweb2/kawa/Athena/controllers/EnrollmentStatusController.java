@@ -1,23 +1,30 @@
 package br.edu.ifpb.pweb2.kawa.Athena.controllers;
 
+import br.edu.ifpb.pweb2.kawa.Athena.models.Document;
 import br.edu.ifpb.pweb2.kawa.Athena.models.EnrollmentStatus;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Semester;
 import br.edu.ifpb.pweb2.kawa.Athena.models.Student;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.EnrollmentStatusRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.SemesterRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.StudentRepository;
+import br.edu.ifpb.pweb2.kawa.Athena.services.DocumentService;
 import br.edu.ifpb.pweb2.kawa.Athena.ui.NavPage;
 import br.edu.ifpb.pweb2.kawa.Athena.ui.NavePageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.print.Doc;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +33,8 @@ import java.util.Optional;
 @RequestMapping("/enrollments")
 @PreAuthorize("hasAnyRole('ADMIN', 'ALUNO')")
 public class EnrollmentStatusController {
+    @Autowired
+    private DocumentService documentService;
 
     @Autowired
     private SemesterRepository semesterRepository;
@@ -52,12 +61,31 @@ public class EnrollmentStatusController {
     }
 
     @PostMapping
-    public ModelAndView save(EnrollmentStatus enrollmentStatus, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
+    public ModelAndView save(EnrollmentStatus enrollmentStatus,
+                             @RequestParam("file") MultipartFile file,
+                             ModelAndView modelAndView,
+                             RedirectAttributes redirectAttributes
+                             ){
+        String msg = "Declaração emitida com sucesso!";
+        String nextPage= "enrollments/list";
         enrollmentStatus.setSemester(enrollmentStatus.getStudent().getInstitution().getCurrentSemester());
         enrollmentStatus.getStudent().setCurrentEnrollmentStatus(enrollmentStatus);
         this.enrollmentStatusRepository.save(enrollmentStatus);
-        modelAndView.setViewName("redirect:enrollments/list");
-        redirectAttributes.addFlashAttribute("message", "Declaração emitida com sucesso!");
+
+        if ( !file.isEmpty()) {
+            try {
+                String fileName = "enrollment-status-" + enrollmentStatus.getId() + ".pdf";
+                Document document = documentService.save(enrollmentStatus, fileName, file.getBytes());
+                document.setUrl(buildUrl(enrollmentStatus.getId(), document.getId()));
+                this.enrollmentStatusRepository.save(enrollmentStatus);
+            } catch (Exception e) {
+                msg = "Erro ao salvar o arquivo: " + e.getMessage();
+                nextPage = "enrollments/form";
+            }
+        }
+
+        modelAndView.setViewName("redirect:"+nextPage);
+        redirectAttributes.addFlashAttribute("message", msg);
         return modelAndView;
     }
 
@@ -117,5 +145,27 @@ public class EnrollmentStatusController {
             modelAndView.setViewName("redirect:/enrollments/list");
         }
         return modelAndView;
+    }
+
+    @RequestMapping("/{id}/documents/{idDoc}")
+    public ResponseEntity<byte[]> getDocumento(@PathVariable("idDoc") Long idDoc) {
+        Document document = documentService.findById(idDoc);
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.getName() + "\"")
+                .body(document.getFile());
+    }
+
+
+    private String buildUrl(Long enrollmentStatusId, Long documentId) {
+        String fileDownloadUri = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/enrollments/")
+                .path(String.valueOf(enrollmentStatusId))
+                .path("/documents/")
+                .path(String.valueOf(documentId))
+                .toUriString();
+        return fileDownloadUri;
     }
 }
