@@ -41,4 +41,9 @@ public class Institution {
         this.students.forEach(student -> student.setInstitution(null));
         this.students.clear();
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
