@@ -9,7 +9,7 @@
             <div class="col-md">
                 <h1>Lista de Estudantes</h1>
             </div>
-            <div class="col-md ml-auto d-flex justify-content-end align-items-center">
+            <div class="col-md ml-auto d-flex justify-content-end align-items-center" sec:authorize="hasRole('ADMIN')">
                 <form th:action="@{/students/form}" method="GET">
                     <button class="btn btn-dark" type="submit">Novo estudante</button>
                 </form>
@@ -35,7 +35,7 @@
                         <td th:text="${student.institution == null? 'Não cadastrado' : student.institution.name}"></td>
                         <td th:text="${student.currentEnrollmentStatus == null ? 'Não cadastrado' : student.currentEnrollmentStatus.semester.description}"></td>
                         <td style="width: 1px"><a class="border-0 bg-transparent" th:href="@{/students/{id}/edit(id=${student.id})}"><i class="bi bi-pencil-fill" style="color:#212529"></i></a></td>
-                        <td><a th:href="@{/students/{id}/delete(id=${student.id})}"><i class="bi bi-trash-fill" style="color:#dc3545"></i></a></td>
+                        <td><a sec:authorize="hasRole('ADMIN')" th:href="@{/students/{id}/delete(id=${student.id})}"><i class="bi bi-trash-fill" style="color:#dc3545"></i></a></td>
                     </tr>
                     </tbody>
                 </table>

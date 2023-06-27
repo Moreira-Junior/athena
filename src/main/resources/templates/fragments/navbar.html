@@ -9,7 +9,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                         <form th:action="@{/institutions/list}" method="GET">
                             <button class="nav-link active border-0 bg-transparent">Instituições</button>
                         </form>
@@ -24,7 +24,7 @@
                             <button class="nav-link active border-0 bg-transparent">Declarações</button>
                         </form>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                         <form th:action="@{/semesters/list}" method="GET">
                             <button class="nav-link active border-0 bg-transparent">Períodos</button>
                         </form>
