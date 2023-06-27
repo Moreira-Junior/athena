@@ -100,7 +100,7 @@ public class InstitutionController {
             redirectAttributes.addFlashAttribute("message", "Instituição deletada com sucesso!");
             modelAndView.setViewName("redirect:/institutions/list");
         }
-        redirectAttributes.addFlashAttribute("message", "Instituição não encontrada!");
+        redirectAttributes.addFlashAttribute("warning", "Instituição não encontrada!");
         modelAndView.setViewName("redirect:/institutions/list");
         return modelAndView;
     }

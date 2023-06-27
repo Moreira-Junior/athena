@@ -103,7 +103,7 @@ public class SemesterController {
             redirectAttributes.addFlashAttribute("message", "Período deletado com sucesso!");
             modelAndView.setViewName("redirect:/semesters/list");
         } else {
-            redirectAttributes.addFlashAttribute("message", "Período não encontrado!");
+            redirectAttributes.addFlashAttribute("warning", "Período não encontrado!");
             modelAndView.setViewName("redirect:/semesters/list");
         }
         return modelAndView;

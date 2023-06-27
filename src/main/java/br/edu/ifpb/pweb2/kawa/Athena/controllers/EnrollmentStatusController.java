@@ -184,7 +184,7 @@ public class EnrollmentStatusController {
             redirectAttributes.addFlashAttribute("message", "Declaração deletada com sucesso!");
             modelAndView.setViewName("redirect:/enrollments/list");
         } else{
-            redirectAttributes.addFlashAttribute("message", "Declaração não encontrada!");
+            redirectAttributes.addFlashAttribute("warning", "Declaração não encontrada!");
             modelAndView.setViewName("redirect:/enrollments/list");
         }
         return modelAndView;

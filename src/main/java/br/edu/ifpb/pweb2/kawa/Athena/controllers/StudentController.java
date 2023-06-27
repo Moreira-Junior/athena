@@ -55,6 +55,11 @@ public class StudentController {
             modelAndView.setViewName("/students/form");
             return modelAndView;
         }
+        if (!studentRepository.findByUserUsername(student.getUser().getUsername()).isEmpty()) {
+            modelAndView.setViewName("/students/form");
+            modelAndView.addObject("warning", "Usuário já existe");
+            return modelAndView;
+        }
         if (student.getUser() != null) {
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();
@@ -128,7 +133,7 @@ public class StudentController {
             return modelAndView;
         } else {
             modelAndView.setViewName("redirect:/students/list");
-            redirectAttributes.addFlashAttribute("message", "Student not found!");
+            redirectAttributes.addFlashAttribute("warning", "Estudante não encontrado!");
             return modelAndView;
         }
     }
@@ -136,7 +141,13 @@ public class StudentController {
     @RequestMapping("/{id}/delete")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView deleteById(@PathVariable(value = "id")Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
-        this.studentRepository.deleteById(id);
+        try {
+            this.studentRepository.deleteById(id);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("warning", "Estudante não existe!");
+            modelAndView.setViewName("redirect:/students/list");
+            return modelAndView;
+        }
         redirectAttributes.addFlashAttribute("message", "Estudante deletado com sucesso!");
         modelAndView.setViewName("redirect:/students/list");
         return modelAndView;
