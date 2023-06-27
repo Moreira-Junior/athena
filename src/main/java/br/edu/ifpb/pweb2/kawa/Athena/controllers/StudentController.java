@@ -55,7 +55,7 @@ public class StudentController {
             modelAndView.setViewName("/students/form");
             return modelAndView;
         }
-        if (!studentRepository.findByUserUsername(student.getUser().getUsername()).isEmpty()) {
+        if (student.getId() == null && !studentRepository.findByUserUsername(student.getUser().getUsername()).isEmpty()) {
             modelAndView.setViewName("/students/form");
             modelAndView.addObject("warning", "Usuário já existe");
             return modelAndView;
