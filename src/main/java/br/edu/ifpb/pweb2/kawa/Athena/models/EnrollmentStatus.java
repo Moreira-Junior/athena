@@ -27,7 +27,7 @@ public class EnrollmentStatus {
     @JoinColumn(name = "id_student")
     private Student student;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_document")
     private Document document;
 

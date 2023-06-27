@@ -30,7 +30,7 @@ public class Semester {
     @NotNull(message = "Required field")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endsAt;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "id_institution")
     private Institution institution;
 
