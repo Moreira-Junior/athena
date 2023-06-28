@@ -11,32 +11,32 @@
                 <form th:action="@{/semesters}" method="POST" th:object="${semester}">
                     <div class="row">
                         <input type="hidden" th:field="*{id}"/>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <label class="col-form-label">Descrição</label>
                             <input type="text" class="form-control" required th:field="*{description}" id="description" name="description">
                             <p th:if="${#fields.hasErrors('description')}" th:errorclass="error" th:errors="*{description}" class="alert alert-danger" />
                         </div>
-                        <div class="col-md-3">
-                            <label class="col-form-label">Data inicial</label>
-                            <input type="date" class="form-control" required th:field="*{startsAt}" id="startsAt" name="startsAt" th:format="'yyyy-MM-dd'">
-                            <p th:if="${#fields.hasErrors('startsAt')}" th:errorclass="error" th:errors="*{startsAt}" class="alert alert-danger" />
-                        </div>
-                        <div class="col-md-3">
-                            <label class="col-form-label">Data final</label>
-                            <input type="date" class="form-control" required th:field="*{endsAt}" id="endsAt" name="endsAt" th:format="'yyyy-MM-dd'">
-                            <p th:if="${#fields.hasErrors('endsAt')}" th:errorclass="error" th:errors="*{endsAt}" class="alert alert-danger" />
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <label class="col-form-label">Instituição</label>
                             <select class="form-select" required aria-label="Default select example" th:field="*{institution}" id="institution" name="institution">
                                 <option selected value="">Selecione...</option>
                                 <option th:each="institution : ${institutionsItems}" th:value="${institution.id}" th:label="${institution.name}"></option>
                             </select>
                         </div>
+                        <div class="col-md-6">
+                            <label class="col-form-label">Data inicial</label>
+                            <input type="date" class="form-control" required th:field="*{startsAt}" id="startsAt" name="startsAt" th:format="'yyyy-MM-dd'">
+                            <p th:if="${#fields.hasErrors('startsAt')}" th:errorclass="error" th:errors="*{startsAt}" class="alert alert-danger" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-form-label">Data final</label>
+                            <input type="date" class="form-control" required th:field="*{endsAt}" id="endsAt" name="endsAt" th:format="'yyyy-MM-dd'">
+                            <p th:if="${#fields.hasErrors('endsAt')}" th:errorclass="error" th:errors="*{endsAt}" class="alert alert-danger" />
+                        </div>
                     </div>
                     <div class="row mt-4">
                         <div class="d-flex justify-content-end">
-                            <a class="btn btn-secondary" style="margin-right: 20px" th:href="@{/semesters/list}">Cancel</a>
+                            <a class="btn btn-secondary" style="margin-right: 20px" th:href="@{/semesters/list}">Cancelar</a>
                             <button class="btn btn-success" type="submit" value="Save">Salvar</button>
                         </div>
 

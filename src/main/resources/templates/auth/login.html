@@ -1,39 +1,32 @@
 <!doctype html>
-<html lang="pt_BR">
+<html lang="pt_BR" xmlns:th="www.thymeleaf.org">
 
-<!--<head th:replace="~{/fragments/base :: headfiles('Autenticação', ~{::link})}">-->
-
-<!--  <link th:href="@{/css/auth.css}" rel="stylesheet">-->
-
-<!--</head>-->
+<head th:replace="~{/fragments/head :: content(title='Login')}"></head>
 
 <body class="text-center">
 
-<form class="form-signin" th:action="@{/auth}" method="POST">
-  <div class="centered">
-    <h1 class="h3 mb-3 font-weight-normal autentique">Por favor, autentique-se</h1>
-
-    <div th:if="${not #strings.isEmpty(mensagem)}"
-         th:utext="${mensagem} +'<button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-label=&quot;Close&quot;><span aria-hidden=&quot;true&quot;>&times;</span></button>'"
-         class="alert alert-danger alert-dismissible fade show" role="alert">
-
-    </div>
-
-    <label for="username" class="sr-only" style="text-align: left; display: block;">Login</label>
-    <input type="text" class="form-control input-login" placeholder="Login" requiredautofocus name="username">
-
-    <label for="password" class="sr-only mt-3" style="text-align: left; display: block;">Senha</label>
-    <input type="password" class="form-control input-login" placeholder="Senha" required name="password">
-
-    <div class="checkbox mb-3">
-      <label> <input type="checkbox" value="lembrar">
-        Lembrar-me
-      </label>
-    </div>
-    <button class="btn btn-lg btn-primary" type="submit">Entrar</button>
+<div class="row align-content-center justify-content-center align-items-center w-100" style="height: 100vh">
+  <div class="col-md-6">
+    <img th:src="@{/img/home.svg}" width="50%"/>
   </div>
-</form>
+  <div class="col-md-6 login">
+    <div class="w-75">
+      <h2 class="mb-5">Realize seu login para acessar</h2>
+      <form class="form-signin" th:action="@{/auth}" method="POST">
+        <label for="username" class="sr-only" style="text-align: left; display: block;">Login</label>
+        <input type="text" class="form-control input-login" placeholder="username" required autofocus name="username">
 
+        <label for="password" class="sr-only mt-3" style="text-align: left; display: block;">Senha</label>
+        <input type="password" class="form-control input-login" placeholder="******" required name="password">
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-lg btn-dark mt-5" style="margin-right: 20px" type="submit">Acessar</button>
+<!--          <button class="btn btn-lg btn-light mt-5" type="submit">Cadastre-se</button>-->
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
 </body>
 
 </html>
