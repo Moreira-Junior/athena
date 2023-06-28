@@ -86,7 +86,6 @@ public class EnrollmentStatusController {
         }
         String msg = "Declaração emitida com sucesso!";
         String nextPage= "enrollments/list";
-        enrollmentStatus.setSemester(enrollmentStatus.getStudent().getInstitution().getCurrentSemester());
         enrollmentStatus.getStudent().setCurrentEnrollmentStatus(enrollmentStatus);
 
         if(enrollmentStatus.getId() != null && file.isEmpty()){
