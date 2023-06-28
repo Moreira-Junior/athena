@@ -6,7 +6,6 @@ import br.edu.ifpb.pweb2.kawa.Athena.repositories.DocumentRepository;
 import br.edu.ifpb.pweb2.kawa.Athena.repositories.EnrollmentStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -24,7 +23,6 @@ public class DocumentService {
         Document document = new Document(fileName, bytes);
         enrollmentStatus.setDocument(document);
         documentRepository.save(document);
-//        enrollmentStatusRepository.save(enrollmentStatus);
         return document;
     }
 
@@ -34,5 +32,9 @@ public class DocumentService {
 
     public Optional<Document> findByEnrollmentStatus(Long enrollmentStatusId) {
         return Optional.ofNullable(documentRepository.findByEnrollmentStatus(enrollmentStatusId));
+    }
+
+    public void deleteById(Long id) {
+        documentRepository.deleteById(id);
     }
 }

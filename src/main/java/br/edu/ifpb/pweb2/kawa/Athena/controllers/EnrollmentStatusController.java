@@ -86,19 +86,22 @@ public class EnrollmentStatusController {
         String nextPage= "enrollments/list";
         enrollmentStatus.setSemester(enrollmentStatus.getStudent().getInstitution().getCurrentSemester());
         enrollmentStatus.getStudent().setCurrentEnrollmentStatus(enrollmentStatus);
-        this.enrollmentStatusRepository.save(enrollmentStatus);
 
         if ( !file.isEmpty()) {
+            Optional<Document> previousDocument = documentService.findByEnrollmentStatus(enrollmentStatus.getId());
+            documentService.deleteById(previousDocument.get().getId());
+
             try {
                 String fileName = "enrollment-status-" + enrollmentStatus.getId() + ".pdf";
                 Document document = documentService.save(enrollmentStatus, fileName, file.getBytes());
                 document.setUrl(buildUrl(enrollmentStatus.getId(), document.getId()));
-                this.enrollmentStatusRepository.save(enrollmentStatus);
             } catch (Exception e) {
                 msg = "Erro ao salvar o arquivo: " + e.getMessage();
                 nextPage = "enrollments/form";
             }
         }
+
+        this.enrollmentStatusRepository.save(enrollmentStatus);
 
         modelAndView.setViewName("redirect:"+nextPage);
         redirectAttributes.addFlashAttribute("message", msg);
