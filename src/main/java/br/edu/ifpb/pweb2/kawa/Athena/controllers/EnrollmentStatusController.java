@@ -88,9 +88,16 @@ public class EnrollmentStatusController {
         String nextPage= "enrollments/list";
         enrollmentStatus.setSemester(enrollmentStatus.getStudent().getInstitution().getCurrentSemester());
         enrollmentStatus.getStudent().setCurrentEnrollmentStatus(enrollmentStatus);
+
+        if(enrollmentStatus.getId() != null && file.isEmpty()){
+            Optional<Document> documentFound = documentService.findByEnrollmentStatus(enrollmentStatus.getId());
+            if (documentFound.isPresent()) {
+                enrollmentStatus.setDocument(documentFound.get());
+            }
+        }
         this.enrollmentStatusRepository.save(enrollmentStatus);
 
-        if ( !file.isEmpty()) {
+        if (!file.isEmpty()) {
             try {
                 String fileName = "enrollment-status-" + enrollmentStatus.getId() + ".pdf";
                 Document document = documentService.save(enrollmentStatus, fileName, file.getBytes());
