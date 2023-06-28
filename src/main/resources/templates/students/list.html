@@ -40,7 +40,7 @@
                     </tbody>
                 </table>
                 <!-- Paginator -->
-                <div th:replace="~{fragments/paging :: paginator('students/list', ${navPage})}" />
+                <div th:replace="~{fragments/paging :: paginator('.' + ${#strings.substring(#httpServletRequest.requestURI, 7)}, ${navPage})}" />
             </div>
         </div>
     </div>
