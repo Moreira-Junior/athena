@@ -11,34 +11,34 @@
                 <form th:action="@{/students}" method="POST" th:object="${student}">
                     <div class="row">
                         <input type="hidden" th:field="*{id}"/>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="col-sm-2 col-form-label">Nome</label>
                             <input type="text" class="form-control" required th:field="*{name}" id="name" name="name">
                             <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}" class="alert alert-danger" />
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="col-sm-2 col-form-label">Matrícula</label>
                             <input type="text" class="form-control" required th:field="*{registrationCode}" id="reg_code" name="reg_code">
                             <p th:if="${#fields.hasErrors('registrationCode')}" th:errorclass="error" th:errors="*{registrationCode}" class="alert alert-danger" />
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="col-sm-2 col-form-label">Usuário</label>
                             <input type="text" class="form-control" required th:field="*{user.username}" id="username" name="username">
                             <p th:if="${#fields.hasErrors('user.username')}" th:errorclass="error" th:errors="*{user.username}" class="alert alert-danger" />
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="col-sm-2 col-form-label">Senha</label>
                             <input type="text" class="form-control" required th:field="*{user.password}" id="password" name="password">
                             <p th:if="${#fields.hasErrors('user.password')}" th:errorclass="error" th:errors="*{user.password}" class="alert alert-danger" />
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="col-sm-2 col-form-label">Instituição</label>
                             <select class="form-select" required aria-label="Default select example" th:field="*{institution}" id="institution" name="institution">
                                 <option selected value="">Selecione...</option>
                                 <option th:each="institution : ${institutionsItems}" th:value="${institution.id}" th:label="${institution.name}"></option>
                             </select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="col-sm-2 col-form-label">Declaração</label>
                             <select class="form-select" aria-label="Default select example" th:field="*{currentEnrollmentStatus}" id="currentEnrollmentStatus" name="currentEnrollmentStatus">
                                 <option selected value="">Selecione...</option>

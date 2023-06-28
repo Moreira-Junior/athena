@@ -142,7 +142,7 @@ public class EnrollmentStatusController {
         return modelAndView;
     }
 
-    @GetMapping("list/overdue/{nDaysAfter}")
+    @GetMapping("list/deadline/{nDaysAfter}")
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView listOverdue(ModelAndView modelAndView, @PathVariable(value = "nDaysAfter") Integer nDaysAfter,
                                     @RequestParam(defaultValue = "1") int page,
