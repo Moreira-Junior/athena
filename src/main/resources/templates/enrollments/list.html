@@ -1,19 +1,31 @@
 <html
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layout/layout}"
-        th:with="title='Lista de Declaração'">
+        th:with="title=${title}">
     <body>
         <div layout:fragment="content">
             <div class="container">
                 <div class="row">
-                    <div class="col-md">
-                        <h1>Lista de Declarações</h1>
+                    <div class="col-md d-flex">
+                        <h1 class="me-2" th:text="${title}"></h1>
+                        <h1 class="me-2" th:if="${nDaysAfter} != null" th:text="${nDaysAfter}"></h1>
+                        <h1 th:if="${nDaysAfter} != null">dias</h1>
                     </div>
-                    <div class="col-md ml-auto d-flex justify-content-end align-items-center">
+                    <div sec:authorize="hasRole('ADMIN')" class="col-md-3 ml-auto d-flex justify-content-end align-items-center">
                         <form th:action="@{/enrollments/form}" method="GET">
                             <button class="btn btn-dark" type="submit">Nova declaração</button>
                         </form>
                     </div>
+                </div>
+
+                <div th:if="${nDaysAfter} != null">
+                    <form class="d-flex align-items-end" th:action="@{/enrollments/list/deadline}" th:method="post">
+                        <div class="me-4">
+                            <label>Personalize o prazo de vencimento</label>
+                            <input type="text" class="form-control" required id="nDaysAfter" name="nDaysAfter">
+                        </div>
+                        <button type="submit" class="btn btn-outline-dark">Redefinir prazo</button>
+                    </form>
                 </div>
 
                 <div class="row mt-5">

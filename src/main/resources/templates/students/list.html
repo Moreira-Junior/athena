@@ -1,15 +1,15 @@
 <html
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layout/layout}"
-        th:with="title='Lista de Estudantes'">
+        th:with="title=${title}">
 <body>
 <div layout:fragment="content">
     <div class="container">
         <div class="row">
             <div class="col-md">
-                <h1>Lista de Estudantes</h1>
+                <h1 class="me-2" th:text="${title}"></h1>
             </div>
-            <div class="col-md ml-auto d-flex justify-content-end align-items-center" sec:authorize="hasRole('ADMIN')">
+            <div class="col-md-3 ml-auto d-flex justify-content-end align-items-center" sec:authorize="hasRole('ADMIN')">
                 <form th:action="@{/students/form}" method="GET">
                     <button class="btn btn-dark" type="submit">Novo estudante</button>
                 </form>

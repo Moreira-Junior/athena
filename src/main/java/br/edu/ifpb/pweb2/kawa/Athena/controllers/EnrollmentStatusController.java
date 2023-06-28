@@ -48,6 +48,8 @@ public class EnrollmentStatusController {
     @GetMapping("/form")
     public ModelAndView getForm(ModelAndView modelAndView){
         modelAndView.setViewName("enrollments/form");
+        String title = "Cadastro de declaração";
+        modelAndView.addObject("title", title);
         modelAndView.addObject("enrollmentStatus", new EnrollmentStatus());
         return modelAndView;
     }
@@ -121,6 +123,8 @@ public class EnrollmentStatusController {
                 pageEnrollments.getTotalElements(), pageEnrollments.getTotalPages(), size);
         modelAndView.addObject("enrollmentStatusList", pageEnrollments);
         modelAndView.addObject("navPage", navPage);
+        String title = "Lista de declarações";
+        modelAndView.addObject("title", title);
         modelAndView.setViewName("enrollments/list");
         return modelAndView;
     }
@@ -138,8 +142,16 @@ public class EnrollmentStatusController {
 
         modelAndView.addObject("enrollmentStatusList", enrollmentStatusPage);
         modelAndView.addObject("navPage", navPage);
+        String title = "Lista de declarações vencidas";
+        modelAndView.addObject("title", title);
         modelAndView.setViewName("enrollments/list");
         return modelAndView;
+    }
+
+    @PostMapping("list/deadline")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String setDeadline(@RequestParam("nDaysAfter") Integer nDaysAfter) {
+        return "redirect:deadline/" + nDaysAfter;
     }
 
     @GetMapping("list/deadline/{nDaysAfter}")
@@ -157,15 +169,21 @@ public class EnrollmentStatusController {
 
         modelAndView.addObject("enrollmentStatusList", enrollmentStatusPage);
         modelAndView.addObject("navPage", navPage);
+        String title = "Lista de declarações a vencer em";
+        modelAndView.addObject("title", title);
         modelAndView.setViewName("enrollments/list");
         return modelAndView;
     }
+
+
 
     @GetMapping("/{id}/edit")
     public ModelAndView editForm(@PathVariable Long id, ModelAndView modelAndView){
         Optional<EnrollmentStatus> enrollmentStatus = enrollmentStatusRepository.findById(id);
         if (enrollmentStatus.isPresent()) {
             modelAndView.addObject("enrollmentStatus", enrollmentStatus.get());
+            String title = "Edição de declaração";
+            modelAndView.addObject("title", title);
             modelAndView.setViewName("enrollments/form");
             return modelAndView;
         } else {

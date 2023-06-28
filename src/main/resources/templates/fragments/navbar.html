@@ -13,7 +13,7 @@
                             <button class="nav-link active border-0 bg-transparent">Instituições</button>
                         </form>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                         <form th:action="@{/students/list}" method="GET">
                             <button class="nav-link active border-0 bg-transparent">Estudantes</button>
                         </form>
@@ -28,8 +28,45 @@
                             <button class="nav-link active border-0 bg-transparent">Períodos</button>
                         </form>
                     </li>
+                    <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Relatórios
+                        </a>
+                        <ul class="dropdown-menu" style="width: 200px" aria-labelledby="navbarDropdown">
+                            <li>
+                                <form th:action="@{/enrollments/list/overdue}" method="GET">
+                                    <button class="dropdown-item">Declarações vencidas</button>
+                                </form>
+                            </li>
+                            <li>
+                                <form th:action="@{/enrollments/list/deadline/10}" method="GET">
+                                    <button class="dropdown-item">Declarações a vencer</button>
+                                </form>
+                            </li>
+                            <li>
+                                <form th:action="@{/students/list/withoutEnrollment}" method="GET">
+                                    <button class="dropdown-item">Alunos sem declaração</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
-                <a class="navbar-brand border-0 bg-transparent" th:href="@{/auth/logout}"><strong>Sair</strong></a>
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span th:text="${#httpServletRequest.remoteUser}" style="text-transform: capitalize"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li sec:authorize="hasRole('ALUNO')">
+                                <a class="dropdown-item">
+                                    Meu perfil (a implementar)
+                                </a>
+                            </li>
+                            <li><a class="dropdown-item" th:href="@{/auth/logout}">Sair</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
             </div>
         </div>
     </nav>
