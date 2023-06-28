@@ -58,8 +58,8 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li sec:authorize="hasRole('ALUNO')">
-                                <a class="dropdown-item">
-                                    Meu perfil (a implementar)
+                                <a class="dropdown-item" th:href="@{/students/profile}">
+                                    Meu perfil
                                 </a>
                             </li>
                             <li><a class="dropdown-item" th:href="@{/auth/logout}">Sair</a></li>
