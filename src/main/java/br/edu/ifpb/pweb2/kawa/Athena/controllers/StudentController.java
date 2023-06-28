@@ -29,7 +29,6 @@ import java.util.Set;
 
 @Controller
 @RequestMapping("/students")
-@PreAuthorize("hasAnyRole('ADMIN', 'ALUNO')")
 public class StudentController {
 
     @Autowired
@@ -92,6 +91,7 @@ public class StudentController {
 
 
     @GetMapping("list")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ALUNO')")
     public Object listAll(ModelAndView modelAndView, @RequestParam(defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "5") int size){
         Pageable paging = PageRequest.of(page - 1, size);
@@ -131,6 +131,7 @@ public class StudentController {
     }
 
     @GetMapping("profile")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ALUNO')")
     public String profile(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         List<Student> students = studentRepository.findByUserUsername(username);
@@ -140,6 +141,7 @@ public class StudentController {
 
 
     @GetMapping("/{id}/edit")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ALUNO')")
     public ModelAndView editForm(@PathVariable("id") Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){
         Optional<Student> optionalStudent = studentRepository.findById(id);
         if (optionalStudent.isPresent()) {
