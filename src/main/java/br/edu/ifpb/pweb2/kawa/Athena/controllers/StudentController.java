@@ -124,7 +124,7 @@ public class StudentController {
 
         modelAndView.addObject("students", studentPage);
         modelAndView.addObject("navPage", navPage);
-        String title = "Cadastro de estudantes sem declaração";
+        String title = "Relatório de estudantes sem declaração";
         modelAndView.addObject("title", title);
         modelAndView.setViewName("students/list");
         return modelAndView;
