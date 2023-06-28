@@ -1,15 +1,15 @@
 <html
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{layout/layout}"
-    th:with="title='Lista de Períodos'">
+    th:with="title=${title}">
     <body>
         <div layout:fragment="content">
             <div class="container">
                 <div class="row">
                     <div class="col-md">
-                        <h1>Lista de Períodos</h1>
+                        <h1 class="me-2" th:text="${title}"></h1>
                     </div>
-                    <div class="col-md ml-auto d-flex justify-content-end align-items-center">
+                    <div class="col-md-3 ml-auto d-flex justify-content-end align-items-center">
                         <form th:action="@{/semesters/form}" method="GET">
                             <button class="btn btn-dark" type="submit">Novo período</button>
                         </form>

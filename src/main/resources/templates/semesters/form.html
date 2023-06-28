@@ -1,12 +1,12 @@
 <html
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layout/layout}"
-        th:with="title='Novo Período'">
+        th:with="title=${title}">
     <body>
         <div layout:fragment="content">
             <div class="container">
                 <div class="row mb-5">
-                    <h1>Novo período</h1>
+                    <h1 class="me-2" th:text="${title}"></h1>
                 </div>
                 <form th:action="@{/semesters}" method="POST" th:object="${semester}">
                     <div class="row">

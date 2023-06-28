@@ -40,6 +40,8 @@ public class StudentController {
     @GetMapping("/form")
     public ModelAndView getForm(ModelAndView modelAndView){
         modelAndView.setViewName("students/form");
+        String title = "Cadastro de estudante";
+        modelAndView.addObject("title", title);
         modelAndView.addObject("student", new Student());
         return modelAndView;
     }
@@ -103,6 +105,8 @@ public class StudentController {
                 pageStudents.getTotalElements(), pageStudents.getTotalPages(), size);
         modelAndView.addObject("students", pageStudents);
         modelAndView.addObject("navPage", navPage);
+        String title = "Lista de estudantes";
+        modelAndView.addObject("title", title);
         modelAndView.setViewName("students/list");
         return modelAndView;
     }
@@ -119,6 +123,8 @@ public class StudentController {
 
         modelAndView.addObject("students", studentPage);
         modelAndView.addObject("navPage", navPage);
+        String title = "Cadastro de estudantes sem declaração";
+        modelAndView.addObject("title", title);
         modelAndView.setViewName("students/list");
         return modelAndView;
     }
@@ -129,6 +135,8 @@ public class StudentController {
         if (optionalStudent.isPresent()) {
             Student student = optionalStudent.get();
             modelAndView.addObject("student", student);
+            String title = "Edição de estudante";
+            modelAndView.addObject("title", title);
             modelAndView.setViewName("students/form");
             return modelAndView;
         } else {

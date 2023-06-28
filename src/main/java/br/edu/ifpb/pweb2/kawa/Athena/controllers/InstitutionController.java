@@ -38,6 +38,8 @@ public class InstitutionController {
     @GetMapping("/form")
     public ModelAndView getForm(ModelAndView modelAndView){
         modelAndView.setViewName("institutions/form");
+        String title = "Cadastro de instituição";
+        modelAndView.addObject("title", title);
         modelAndView.addObject("institution", new Institution());
         return modelAndView;
     }
@@ -63,6 +65,8 @@ public class InstitutionController {
                 pageInstitution.getTotalElements(), pageInstitution.getTotalPages(), size);
         modelAndView.addObject("institutions", pageInstitution);
         modelAndView.addObject("navPage", navPage);
+        String title = "Lista de instituições";
+        modelAndView.addObject("title", title);
         modelAndView.setViewName("institutions/list");
         return modelAndView;
     }
@@ -73,6 +77,8 @@ public class InstitutionController {
         Optional<Institution> optionalInstitution = institutionRepository.findById(id);
         if (optionalInstitution.isPresent()) {
             modelAndView.addObject("institution", optionalInstitution.get());
+            String title = "Edição de instituição";
+            modelAndView.addObject("title", title);
             modelAndView.setViewName("institutions/form");
             return modelAndView;
         } else {

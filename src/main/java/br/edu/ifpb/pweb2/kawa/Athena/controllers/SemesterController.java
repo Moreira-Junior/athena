@@ -41,6 +41,8 @@ public class SemesterController {
     @GetMapping("/form")
     public ModelAndView getForm(ModelAndView modelAndView){
         modelAndView.setViewName("semesters/form");
+        String title = "Cadastro de período";
+        modelAndView.addObject("title", title);
         modelAndView.addObject("semester", new Semester());
         return modelAndView;
     }
@@ -72,6 +74,8 @@ public class SemesterController {
                 pageSemesters.getTotalElements(), pageSemesters.getTotalPages(), size);
         modelAndView.addObject("semesters", pageSemesters);
         modelAndView.addObject("navPage", navPage);
+        String title = "Lista de períodos";
+        modelAndView.addObject("title", title);
         modelAndView.setViewName("semesters/list");
         return modelAndView;
     }
@@ -82,6 +86,8 @@ public class SemesterController {
         if (optionalSemester.isPresent()) {
             modelAndView.addObject("semester", optionalSemester.get());
             modelAndView.setViewName("semesters/form");
+            String title = "Edição de período";
+            modelAndView.addObject("title", title);
             return modelAndView;
         } else {
             modelAndView.setViewName("redirect:/semesters/list");
