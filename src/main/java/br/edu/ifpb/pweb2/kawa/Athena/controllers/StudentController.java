@@ -89,15 +89,16 @@ public class StudentController {
         return modelAndView;
     }
 
+
+
     @GetMapping("list")
-    public ModelAndView listAll(ModelAndView modelAndView, @RequestParam(defaultValue = "1") int page,
+    public Object listAll(ModelAndView modelAndView, @RequestParam(defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "5") int size){
         Pageable paging = PageRequest.of(page - 1, size);
         Page<Student> pageStudents;
         String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         if(role.equals("[ROLE_ALUNO]")) {
-            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            pageStudents = studentRepository.findByUserUsername(username, paging);
+            return "redirect:/home/";
         } else {
             pageStudents = studentRepository.findAll(paging);
         }
@@ -128,6 +129,15 @@ public class StudentController {
         modelAndView.setViewName("students/list");
         return modelAndView;
     }
+
+    @GetMapping("profile")
+    public String profile(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Student> students = studentRepository.findByUserUsername(username);
+        Long studentId = students.get(0).getId();
+        return "redirect:/students/" + studentId + "/edit";
+    }
+
 
     @GetMapping("/{id}/edit")
     public ModelAndView editForm(@PathVariable("id") Long id, ModelAndView modelAndView, RedirectAttributes redirectAttributes){

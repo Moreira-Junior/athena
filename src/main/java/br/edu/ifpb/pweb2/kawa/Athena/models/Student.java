@@ -41,4 +41,8 @@ public class Student {
     public String toString(){
         return name;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
